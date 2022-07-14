@@ -1,8 +1,41 @@
+// COLORS
+
+$background-color: #363635;
+$accent-color: #8FBB99;
+$text-color: #D6D3F0;
+$futuraFont: futuraOblique;
+$bodyFont: 'Space Grotesk';
+
 .App {
   text-align: center;
+  width: 100vw;
+  background-color: $background-color;
 }
 
-.App-logo {
+.bodyText {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 48px;
+  color: white;
+}
+
+@font-face {
+  font-family: futuraOblique;
+  src: url("../public/fonts/obliqueFutura.otf");
+}
+
+// overrides 
+
+h1 {
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+p {
+  margin-block-end: 0;
+  margin-block-start: 0;
+}
+
+/* .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
@@ -35,4 +68,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */
