@@ -1,0 +1,38 @@
+@import "../App.module.scss";
+
+.ocean {
+  height: 90vh;
+  width: 100vw;
+}
+
+.waveSvg {
+  position: absolute;
+  z-index: -10;
+}
+
+.welcome {
+  font-family: $bodyFont;
+  font-size: 4rem;
+  padding: 20% 15rem 0;
+  text-align: center;
+  color: white;
+
+  position: absolute;
+  text-shadow: grey 2px 5px;
+  z-index: 10;
+}
+
+@media (max-width: $md) {
+  .welcome {
+    padding: 25% 1rem 0;
+    font-size: 2rem;
+  }
+}
+
+.subheader {
+  font-family: $bodyFont;
+  font-size: 1.5rem;
+  position: absolute;
+  text-align: center;
+  top: 6rem;
+}

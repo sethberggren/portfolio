@@ -1,0 +1,87 @@
+$numOfScrollElements: 0;
+
+.fullPageElement {
+  width: 100vw;
+  height: 100vh;
+}
+
+.fullPageNav {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    top: 50%;
+    right: 2.5%;
+    text-align: center;
+}
+
+.fullPageNav ul {
+    padding: 0;
+    margin: 0;
+}
+
+.fullPageNav ul li {
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: 4px;
+    position: relative;
+}
+
+.fullPageNav ul li a {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+
+.fullPageNav ul li a:hover {
+    .fullPageNavItem {
+        transform: scale(200%);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .fullPageNavItemActive {
+        transform: scale(100%);
+        transition: none;
+    }
+}
+
+.fullPageNavItem {
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1;
+    height: 25%;
+    width: 25%;
+    border: 0;
+    background: black;
+
+}
+
+.fullPageNavItemActive {
+    height: 75%;
+    width: 75%;
+}
+
+.fullPageNavItemActive:hover {
+    height: 75%;
+    width: 75%;
+}
+
+.fullPageContainer {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  transition: transform 700ms ease 0s;
+}
+
+a[id="about"]:target ~ .fullPageContainer {
+    transform: translateY(1251px);
+}
