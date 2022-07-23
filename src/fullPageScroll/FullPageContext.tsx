@@ -98,14 +98,10 @@ const fullPageReducerFunctions: ReducerFunctions<
     if (!newIds.includes(id)) {
       newIds[index] = id;
 
-
-      console.log(newIds);
-
       return { ...state, ids: newIds };
     } else {
       return {...state};
     }
-  
   },
 
   setNumOfPanels: (

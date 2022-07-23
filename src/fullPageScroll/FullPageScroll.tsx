@@ -26,16 +26,17 @@ type FullPageScrollProps = {
   children: React.ReactNode | React.ReactNode[];
 };
 
-const childComponentSetup = (
-  children: React.ReactNode
-) => {
+const childComponentSetup = (children: React.ReactNode) => {
   let allValid = true;
   let numOfPanels = 0;
 
   React.Children.forEach(children, (child) => {
-    
     if (child) {
-      if (typeof child !== "string" && typeof child !== "number" && typeof child !== "boolean") {
+      if (
+        typeof child !== "string" &&
+        typeof child !== "number" &&
+        typeof child !== "boolean"
+      ) {
         const type = (child as any).type;
 
         if (type) {
@@ -58,8 +59,6 @@ const childComponentSetup = (
     } else {
       allValid = false;
     }
-
-  
   });
 
   return [allValid, numOfPanels] as const;
@@ -115,15 +114,33 @@ export default function FullPageScroll(props: FullPageScrollProps) {
     return () => document.removeEventListener("wheel", handleScroll);
   }, [handleScroll]);
 
+  const handleResize = useCallback(() => {
+
+    console.log("handleResize has been called from inside fullPageScroll.tsx");
+    dispatch({
+      type: "setViewport",
+      payload: { width: window.innerWidth, height: window.innerHeight },
+    });
+  }, [dispatch]);
+
   useEffect(() => {
 
-    // sets the new index if the location is refreshed.  E.g., if the user navigates to www.foo.com/#bar the effect 
+    console.log("trying to set the event listenenr....");
+    window.addEventListener("resize", () => handleResize());
+
+    return () => window.removeEventListener("resize", () => handleResize());
+  }, []);
+
+  useEffect(() => {
+    // sets the new index if the location is refreshed.  E.g., if the user navigates to www.foo.com/#bar the effect
     // will set the index in view to match the id of #bar.
 
     console.log(window.location.hash);
-  }, [])
+  }, []);
 
-
+  useEffect(() => {
+    console.log("Here's the viewport height" + viewport.height);
+  }, [viewport]);
 
   const anchorTagsForIds = ids.map((id) => (
     <AnchorTagsForIds id={id} key={`anchor-${id}`} />

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   checkContext,
   checkDispatch,
@@ -21,15 +21,26 @@ export function FullPageContent(props: FullPageContentProps) {
     useFullPageContext()
   );
 
+  const [contentHeight, setContentHeight] = useState(viewport.height);
+
   useEffect(() => {
     dispatch({ type: "addId", payload: { id: id, index: index } });
   }, [id, dispatch]);
 
-  let height = viewport.height;
+  useEffect(() => {
 
-  if (index === 0 && hasNavBar) {
-    height = viewport.height - navBarHeight;
-  }
+    let newHeight = 0;
+
+    if (index === 0 && hasNavBar) {
+        newHeight = viewport.height - navBarHeight;
+    } else {
+        newHeight = viewport.height;
+    }
+
+    console.log("Here's the new height" + newHeight);
+    setContentHeight(newHeight);
+
+  }, [index, viewport, hasNavBar, navBarHeight, dispatch])
 
   const fullPageId = `fullPage-${id}`;
 
@@ -37,7 +48,7 @@ export function FullPageContent(props: FullPageContentProps) {
     <div
       className={styles.fullPageElement}
       id={fullPageId}
-      style={{ height: `${height}px` }}
+      style={{ height: `${contentHeight}px` }}
     >
       {children}
     </div>

@@ -39,6 +39,8 @@ function App() {
     const width = window.innerWidth;
     const height = window.innerHeight;
 
+    console.log("resize from app.tsx payload event listnerr...")
+
     dispatch({
       type: "setViewport",
       payload: { width: width, height: height },
