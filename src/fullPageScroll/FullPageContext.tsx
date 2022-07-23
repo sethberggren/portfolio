@@ -1,3 +1,4 @@
+import React from "react";
 import {
   createStateManagement,
   DispatchAction,
@@ -12,6 +13,7 @@ type FullPageSharedState = {
   navBarHeight: number;
   hasNavDots: boolean;
   viewport: { width: number; height: number };
+  viewportScrollAmount: number;
 };
 
 const fullPageInitialState: FullPageSharedState = {
@@ -22,6 +24,7 @@ const fullPageInitialState: FullPageSharedState = {
   navBarHeight: 0,
   hasNavDots: false,
   viewport: { width: window.innerWidth, height: window.innerHeight },
+  viewportScrollAmount: 0,
 };
 
 type FullPageActions =
@@ -30,7 +33,7 @@ type FullPageActions =
       payload: null;
     }
   | { type: "scrollDown"; payload: null }
-  | { type: "addId"; payload: string }
+  | { type: "addId"; payload: {id: string, index: number } }
   | {
       type: "setNumOfPanels";
       payload: number;
@@ -50,7 +53,18 @@ type FullPageActions =
   | {
       type: "setViewport";
       payload: { height: number; width: number };
-    };
+    }
+  | {
+      type: "setIndexInView";
+      payload: number;
+    }
+  | {
+      type: "setViewPortScrollAmount";
+      payload: number;
+    } | {
+      type: "setIndexFromId";
+      payload: string;
+    }
 
 const fullPageReducerFunctions: ReducerFunctions<
   FullPageSharedState,
@@ -76,18 +90,29 @@ const fullPageReducerFunctions: ReducerFunctions<
     }
   },
 
-  addId: (state: FullPageSharedState, { payload }: { payload: string }) => {
-    const newIds = [...state.ids];
-    newIds.push(payload);
+  addId: (state: FullPageSharedState, { payload }: { payload: {index: number, id: string} }) => {
+    const {index, id} = payload;
 
-    return { ...state, ids: newIds };
+    const newIds = [...state.ids];
+
+    if (!newIds.includes(id)) {
+      newIds[index] = id;
+
+
+      console.log(newIds);
+
+      return { ...state, ids: newIds };
+    } else {
+      return {...state};
+    }
+  
   },
 
   setNumOfPanels: (
     state: FullPageSharedState,
     { payload }: { payload: number }
   ) => {
-    return { ...state, numOfPanels: payload };
+    return { ...state, numOfPanels: payload};
   },
 
   setHasNavBar: (
@@ -116,11 +141,77 @@ const fullPageReducerFunctions: ReducerFunctions<
   ) => {
     return { ...state, viewport: { ...payload } };
   },
+  setIndexInView: (
+    state: FullPageSharedState,
+    { payload }: { payload: number }
+  ) => {
+    return { ...state, indexInView: payload };
+  },
+  setViewPortScrollAmount: (
+    state: FullPageSharedState,
+    { payload }: { payload: number }
+  ) => {
+    return { ...state, viewportScrollAmount: payload };
+  },
+  setIndexFromId: (
+    state: FullPageSharedState,
+    {payload}: {payload: string}
+  ) => {
+    // this reducer function takes a given ID and sets the index in view from that ID.
+
+    const {ids} = state;
+
+    const idIndex = ids.indexOf(payload);
+
+    console.log(payload);
+
+    if (idIndex === -1) {
+      console.warn("Linking ID not found in FullPageContent.  Please ensure all FullPageNavButton 'linkTo' properties match what is in your FullPageContent components.");
+      return {...state, indexInView: 0};
+    };
+
+    return {...state, indexInView: idIndex};
+  }
+
 };
 
-const [useFullPageContext, useFullPageDispatch, providerProps] = createStateManagement<
-  FullPageSharedState,
-  FullPageActions
->({ state: fullPageInitialState, reducerFunctions: fullPageReducerFunctions });
+const [useFullPageContext, useFullPageDispatch, providerProps] =
+  createStateManagement<FullPageSharedState, FullPageActions>({
+    state: fullPageInitialState,
+    reducerFunctions: fullPageReducerFunctions,
+  });
 
-export {useFullPageContext, useFullPageDispatch, providerProps};
+export { useFullPageContext, useFullPageDispatch, providerProps };
+
+const missingContextError =
+  "This component must be used inside of the FullPageProvider component.";
+
+export function checkContext(
+  context: FullPageSharedState | undefined
+): FullPageSharedState {
+  if (!context) {
+    throw new Error(missingContextError);
+  }
+
+  return context;
+}
+export function checkDispatch(
+  dispatch: React.Dispatch<FullPageActions> | undefined
+): React.Dispatch<FullPageActions> {
+  if (!dispatch) {
+    throw new Error(missingContextError);
+  }
+
+  return dispatch;
+}
+
+export function checkContextAndDispatch(
+  context: FullPageSharedState | undefined,
+  dispatch: React.Dispatch<FullPageActions> | undefined
+): [FullPageSharedState, React.Dispatch<FullPageActions>] {
+  if (!context || !dispatch) {
+    throw new Error(missingContextError);
+  }
+
+  return [context, dispatch];
+}

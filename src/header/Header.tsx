@@ -1,14 +1,15 @@
 import styles from "./header.module.scss";
 import { ReactComponent as IcebergLogo } from "../waves/iceberg.svg";
 import appRoutes from "../routes";
+import { FullPageNavButton } from "../fullPageScroll/FullPageNavBar";
 
 export default function Header() {
   return (
-    <header className={styles.header}>
+    <div className={styles.header}>
       <HeaderMain />
 
       <HeaderButtons />
-    </header>
+    </div>
   );
 }
 
@@ -35,7 +36,10 @@ const headerButtons: HeaderButton[] = [
 
 function HeaderButtons() {
   const renderedHeaderButtons = headerButtons.map((headerButton) => (
-    <HeaderButton display={headerButton.display} link={headerButton.link} />
+    <HeaderButton
+      display={headerButton.display}
+      link={headerButton.link}
+    />
   ));
 
   return <div className={styles.headerButtons}>{renderedHeaderButtons}</div>;
@@ -45,8 +49,11 @@ function HeaderButton(props: HeaderButton) {
   const { display, link } = props;
 
   return (
-    <a className={`${styles.headerButton} ${styles.headerText}`} href={`#${link}`}>
+    <FullPageNavButton
+      linkingId={link}
+      className={`${styles.headerButton} ${styles.headerText}`}
+    >
       {display}
-    </a>
+    </FullPageNavButton>
   );
 }

@@ -82,6 +82,6 @@ $numOfScrollElements: 0;
   transition: transform 700ms ease 0s;
 }
 
-a[id="about"]:target ~ .fullPageContainer {
-    transform: translateY(1251px);
+a[id="about"]:target ~ #main {
+    transform: translate3d(0px, -1251px, 0px);
 }

@@ -10,6 +10,10 @@ import About from "./about/About";
 import { useEffect } from "react";
 import { useGlobalDispatch } from "./state/globalContext";
 import Projects from "./projects/Projects";
+import FullPageProvider from "./fullPageScroll/FullPageProvider";
+import { FullPageNavBar } from "./fullPageScroll/FullPageNavBar";
+import { FullPageContent } from "./fullPageScroll/FullPageContent";
+import { FullPageNavDots } from "./fullPageScroll/FullPageNavDots";
 
 function App() {
   const dispatch = useGlobalDispatch();
@@ -18,11 +22,7 @@ function App() {
     {
       id: "welcome",
       jsx: (
-        <div id={"welcome"}>
-          {" "}
-          <Header />
           <Waves />
-        </div>
       ),
     },
     {
@@ -51,9 +51,25 @@ function App() {
     return window.removeEventListener("resize", () => dispatchWindowChange());
   }, []);
 
+  const renderedContent = fullPageElements.map((element, index) => <FullPageContent id = {element.id} index={index}>{element.jsx}</FullPageContent>) as React.ReactElement<any>[];
+
   return (
     <>
-      <FullPageScroll elements={fullPageElements} />
+    <FullPageProvider>
+    <FullPageScroll> 
+      <FullPageNavBar heightPercentage={10}>
+        <Header />
+      </FullPageNavBar>
+
+      <FullPageNavDots location="right" />
+
+      {renderedContent}
+
+
+
+    </FullPageScroll>
+    </FullPageProvider>
+     
     </>
   );
 }

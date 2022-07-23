@@ -8,10 +8,14 @@ import appRoutes from "../routes";
 import { useGlobalContext } from "../state/globalContext";
 import { createStateManagement } from "../state/stateManagment";
 import { FullPageContent, FullPageContentProps } from "./FullPageContent";
-import { useFullPageContext, useFullPageDispatch } from "./FullPageContext";
+import {
+  checkContextAndDispatch,
+  useFullPageContext,
+  useFullPageDispatch,
+} from "./FullPageContext";
 import { FullPageNavDots, FullPageNavDotsProps } from "./FullPageNavDots";
 import styles from "./fullPageScroll.module.scss";
-import { FullPageTopBar, FullPageTopBarProps } from "./FullPageTopBar";
+import { FullPageNavBar, FullPageTopBarProps } from "./FullPageNavBar";
 
 export type FullPageElements = {
   jsx: JSX.Element;
@@ -19,88 +23,91 @@ export type FullPageElements = {
 }[];
 
 type FullPageScrollProps = {
-  children: React.ReactElement<FullPageNavDotsProps> | React.ReactElement<FullPageContentProps>[] | React.ReactElement<FullPageTopBarProps>;
+  children: React.ReactNode | React.ReactNode[];
 };
 
-const childComponentSetup = (children: React.ReactElement<any> | React.ReactElement<any>[]) => {
+const childComponentSetup = (
+  children: React.ReactNode
+) => {
   let allValid = true;
   let numOfPanels = 0;
 
   React.Children.forEach(children, (child) => {
+    
+    if (child) {
+      if (typeof child !== "string" && typeof child !== "number" && typeof child !== "boolean") {
+        const type = (child as any).type;
 
-    const type = child.type;
+        if (type) {
+          if (
+            type !== FullPageNavBar &&
+            type !== FullPageContent &&
+            type !== FullPageNavDots
+          ) {
+            console.log(type);
+            allValid = false;
+          }
 
-    if (type !== FullPageTopBar || type !== FullPageContent || type !== FullPageNavDots) {
-      allValid = false
-    };
-
-    if (type === FullPageContent) {
-      numOfPanels ++;
+          if (type === FullPageContent) {
+            numOfPanels++;
+          }
+        }
+      } else {
+        allValid = false;
+      }
+    } else {
+      allValid = false;
     }
-  })
+
+  
+  });
 
   return [allValid, numOfPanels] as const;
-}
-
+};
 
 export default function FullPageScroll(props: FullPageScrollProps) {
-
   const { children } = props;
-  const state = useFullPageContext();
-  const dispatch = useFullPageDispatch();
+  const [state, dispatch] = checkContextAndDispatch(
+    useFullPageContext(),
+    useFullPageDispatch()
+  );
 
-  if (!state || !dispatch) {
-    throw new Error("FullPageScroll must be called with FullPageProvider.");
-  }
+  const { viewport, indexInView, ids, hasNavBar, viewportScrollAmount } = state;
 
-  const {viewport} = state;
-
- 
   useEffect(() => {
     const [allValid, numOfPanels] = childComponentSetup(children);
 
     if (!allValid) {
-      throw new Error("Must only use FullPageTopBar, FullPageContent, or FullPageNavDots as child components for the FullPageScroll wrapper component.");
+      throw new Error(
+        "Must only use FullPageTopBar, FullPageContent, or FullPageNavDots as child components for the FullPageScroll wrapper component."
+      );
     }
 
-    dispatch({type: "setNumOfPanels", payload: numOfPanels})
+    dispatch({ type: "setNumOfPanels", payload: numOfPanels });
+  }, [children, dispatch]);
 
-  }, [children]);
+  useEffect(() => {
+    const scrollAmount = indexInView * viewport.height;
 
-  const viewportScrollAmount = viewport.height * indexInView;
-
-  const scrollDown = () => {
-    if (indexInView < numOfElements - 1) {
-      setIndexInView(indexInView + 1);
-    }
-  };
-
-  const scrollUp = () => {
-    console.log("scroll up function has been called");
-    console.log(indexInView);
-    if (indexInView > 0) {
-      console.log("index is in range");
-      setIndexInView(indexInView - 1);
-    }
-  };
+    dispatch({ type: "setViewPortScrollAmount", payload: scrollAmount });
+  }, [viewport, indexInView, dispatch]);
 
   const handleScroll = useCallback(
     (e: WheelEvent) => {
       const variation = e.deltaY;
 
       if (variation > 0) {
-        scrollDown();
+        dispatch({ type: "scrollDown", payload: null });
       } else if (variation < 0) {
-        scrollUp();
+        dispatch({ type: "scrollUp", payload: null });
       }
     },
-    [scrollUp, scrollDown]
+    [dispatch]
   );
 
   useEffect(() => {
-    setPageInView(elements[indexInView].id);
-    window.location.hash = elements[indexInView].id;
-  }, [indexInView]);
+    window.location.hash = ids[indexInView];
+  }, [indexInView, ids]);
 
   useEffect(() => {
     document.addEventListener("wheel", handleScroll);
@@ -108,85 +115,37 @@ export default function FullPageScroll(props: FullPageScrollProps) {
     return () => document.removeEventListener("wheel", handleScroll);
   }, [handleScroll]);
 
-  const renderedElements = elements.map(
-    (element) => (
-      <FullPageElement id={element.id} key={`page-${element.id}`}>
-        {element.jsx}
-      </FullPageElement>
-    ),
-    [elements]
-  );
+  useEffect(() => {
 
-  const renderedNav = elements.map((element, index) => (
-    <FullPageNavItem
-      id={element.id}
-      key={`nav-${element.id}`}
-      index={index}
-      indexInView={indexInView}
-      setIndexInView={setIndexInView}
-    />
+    // sets the new index if the location is refreshed.  E.g., if the user navigates to www.foo.com/#bar the effect 
+    // will set the index in view to match the id of #bar.
+
+    console.log(window.location.hash);
+  }, [])
+
+
+
+  const anchorTagsForIds = ids.map((id) => (
+    <AnchorTagsForIds id={id} key={`anchor-${id}`} />
   ));
 
-  const anchorTagsForIds = elements.map((element) => (
-    <AnchorTagsForIds id={element.id} key={`anchor-${element.id}`} />
-  ));
+  const transition = {
+    transform: `translate3d(0px, -${viewportScrollAmount}px, 0px)`,
+    transition: `transform 0.5s ease`,
+  };
 
   return (
     <>
       {anchorTagsForIds}
 
-      <div
-        className={styles.fullPageContainer}
-        style={{
-          transform: `translate3d(0px, -${viewportScrollAmount}px, 0px)`,
-          transition: `transform 0.5s ease`,
-        }}
-      >
-        <nav
-          className={styles.fullPageNav}
-          style={{
-            transform: `translate3d(0px, ${viewportScrollAmount}px, 0px)`,
-            transition: `transform 0.5s ease`,
-          }}
-        >
-          <ul>{renderedNav}</ul>
-        </nav>
-
-        {renderedElements}
+      <div className={styles.fullPageContainer} style={transition} id="main">
+        {children}
       </div>
     </>
   );
 }
 
-type FullPageNavProps = {
-  id: keyof typeof appRoutes;
-  index: number;
-  indexInView: number;
-  setIndexInView: React.Dispatch<React.SetStateAction<number>>;
-};
-
-function FullPageNavItem(props: FullPageNavProps) {
-  const { id, index, indexInView, setIndexInView } = props;
-
-  // if id = pageInView, then set active page style
-  const navStyles = `${styles.fullPageNavItem} ${
-    index === indexInView ? styles.fullPageNavItemActive : ""
-  }`;
-
-  const handleClick: MouseEventHandler<HTMLAnchorElement> = (e) => {
-    setIndexInView(index);
-  };
-
-  return (
-    <li>
-      <a href={`#${id}`} onClick={handleClick}>
-        <span className={navStyles} />
-      </a>
-    </li>
-  );
-}
-
-function AnchorTagsForIds(props: { id: keyof typeof appRoutes }) {
+function AnchorTagsForIds(props: { id: string }) {
   const { id } = props;
 
   return <a id={id}></a>;
