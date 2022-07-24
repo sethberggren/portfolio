@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   checkContext,
   checkDispatch,
@@ -16,8 +16,10 @@ export type FullPageContentProps = {
 export function FullPageContent(props: FullPageContentProps) {
   const { children, id, index } = props;
 
+  const currPageRef = useRef<HTMLDivElement>(null);
+
   const dispatch = checkDispatch(useFullPageDispatch());
-  const { hasNavBar, viewport, navBarHeight } = checkContext(
+  const { hasNavBar, viewport, navBarHeight, indexInView } = checkContext(
     useFullPageContext()
   );
 
@@ -28,19 +30,23 @@ export function FullPageContent(props: FullPageContentProps) {
   }, [id, dispatch]);
 
   useEffect(() => {
-
     let newHeight = 0;
 
     if (index === 0 && hasNavBar) {
-        newHeight = viewport.height - navBarHeight;
+      newHeight = viewport.height - navBarHeight;
     } else {
-        newHeight = viewport.height;
+      newHeight = viewport.height;
     }
 
     console.log("Here's the new height" + newHeight);
     setContentHeight(newHeight);
+  }, [index, viewport, hasNavBar, navBarHeight, dispatch]);
 
-  }, [index, viewport, hasNavBar, navBarHeight, dispatch])
+  useEffect(() => {
+    if (currPageRef.current && index === indexInView) {
+      currPageRef.current.focus();
+    }
+  }, [indexInView]);
 
   const fullPageId = `fullPage-${id}`;
 
@@ -49,6 +55,7 @@ export function FullPageContent(props: FullPageContentProps) {
       className={styles.fullPageElement}
       id={fullPageId}
       style={{ height: `${contentHeight}px` }}
+      ref={currPageRef}
     >
       {children}
     </div>

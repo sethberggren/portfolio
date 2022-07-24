@@ -13,7 +13,7 @@ export type FullPageNavDotsProps = {
 };
 
 export function FullPageNavDots(props: FullPageNavDotsProps) {
-  const { ids, indexInView, viewportScrollAmount } = checkContext(
+  const { ids, indexInView, viewportScrollAmount, scrollTiming } = checkContext(
     useFullPageContext()
   );
 
@@ -23,7 +23,7 @@ export function FullPageNavDots(props: FullPageNavDotsProps) {
 
   const transition = {
     transform: `translate3d(0px, ${viewportScrollAmount}px, 0px)`,
-    transition: `transform 0.5s ease`,
+    transition: `transform ${scrollTiming/1000}s ease`,
   };
 
   return (
@@ -57,8 +57,8 @@ function FullPageNavDot(props: FullPageNavDotProps) {
   }, [dispatch, index]);
 
   return (
-    <li>
-      <a href={`#${id}`} onClick={handleClick}>
+    <li >
+      <a href={`#${id}`} onClick={handleClick} aria-label={`Link to ${id} section.`}>
         <span className={navStyles} />
       </a>
     </li>

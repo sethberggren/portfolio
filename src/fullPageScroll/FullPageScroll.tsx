@@ -24,6 +24,7 @@ export type FullPageElements = {
 
 type FullPageScrollProps = {
   children: React.ReactNode | React.ReactNode[];
+  customScrollTiming?: number;
 };
 
 const childComponentSetup = (children: React.ReactNode) => {
@@ -65,13 +66,21 @@ const childComponentSetup = (children: React.ReactNode) => {
 };
 
 export default function FullPageScroll(props: FullPageScrollProps) {
-  const { children } = props;
+  const { children, customScrollTiming } = props;
   const [state, dispatch] = checkContextAndDispatch(
     useFullPageContext(),
     useFullPageDispatch()
   );
 
-  const { viewport, indexInView, ids, hasNavBar, viewportScrollAmount } = state;
+  const { viewport, indexInView, ids, hasNavBar, viewportScrollAmount, scrollTiming, canScroll } = state;
+
+  useEffect(() => {
+
+    if (scrollTiming) {
+      dispatch({type: "setScrollTiming", payload: scrollTiming});
+    }
+
+  }, [customScrollTiming])
 
   useEffect(() => {
     const [allValid, numOfPanels] = childComponentSetup(children);
@@ -95,13 +104,17 @@ export default function FullPageScroll(props: FullPageScrollProps) {
     (e: WheelEvent) => {
       const variation = e.deltaY;
 
-      if (variation > 0) {
+      if (variation > 0 && canScroll) {
         dispatch({ type: "scrollDown", payload: null });
-      } else if (variation < 0) {
+        dispatch({type: "setCanScroll", payload: false});
+        window.setTimeout(() => {dispatch({type: "setCanScroll", payload: true})}, scrollTiming);
+      } else if (variation < 0 && canScroll) {
         dispatch({ type: "scrollUp", payload: null });
+        dispatch({type: "setCanScroll", payload: false});
+        window.setTimeout(() => {dispatch({type: "setCanScroll", payload: true})}, scrollTiming);
       }
     },
-    [dispatch]
+    [canScroll, scrollTiming, dispatch]
   );
 
   useEffect(() => {
@@ -148,7 +161,7 @@ export default function FullPageScroll(props: FullPageScrollProps) {
 
   const transition = {
     transform: `translate3d(0px, -${viewportScrollAmount}px, 0px)`,
-    transition: `transform 0.5s ease`,
+    transition: `transform ${scrollTiming/1000}s ease`,
   };
 
   return (
