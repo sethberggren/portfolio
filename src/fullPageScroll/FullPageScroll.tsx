@@ -1,26 +1,21 @@
 import React, {
-  MouseEventHandler,
   useCallback,
   useEffect,
-  useState,
 } from "react";
 import appRoutes from "../routes";
-import { useGlobalContext } from "../state/globalContext";
-import { createStateManagement } from "../state/stateManagment";
-import { FullPageContent, FullPageContentProps } from "./FullPageContent";
+import { FullPageContent } from "./FullPageContent";
 import {
   checkContextAndDispatch,
+  providerProps,
   useFullPageContext,
   useFullPageDispatch,
 } from "./FullPageContext";
-import { FullPageNavDots, FullPageNavDotsProps } from "./FullPageNavDots";
+import { FullPageNavDots } from "./FullPageNavDots";
 import styles from "./fullPageScroll.module.scss";
-import { FullPageNavBar, FullPageTopBarProps } from "./FullPageNavBar";
+import { FullPageNavBar } from "./FullPageNavBar";
+import { StateManagementProvider } from "../state/stateManagment";
 
-export type FullPageElements = {
-  jsx: JSX.Element;
-  id: keyof typeof appRoutes;
-}[];
+
 
 type FullPageScrollProps = {
   children: React.ReactNode | React.ReactNode[];
@@ -66,6 +61,20 @@ const childComponentSetup = (children: React.ReactNode) => {
 };
 
 export default function FullPageScroll(props: FullPageScrollProps) {
+  const {children, customScrollTiming} = props;
+
+  return (
+    <StateManagementProvider providerProps={providerProps}>
+      <FullPageContainer customScrollTiming={customScrollTiming}>
+        {children}
+      </FullPageContainer>
+
+    </StateManagementProvider>
+  )
+
+}
+
+function FullPageContainer(props: FullPageScrollProps) {
   const { children, customScrollTiming } = props;
   const [state, dispatch] = checkContextAndDispatch(
     useFullPageContext(),
@@ -157,7 +166,6 @@ export default function FullPageScroll(props: FullPageScrollProps) {
   }, [handleResize]);
 
   useEffect(() => {
-
     // sets the index in view when the hash location changes.
 
     window.onhashchange = () => {
@@ -174,16 +182,16 @@ export default function FullPageScroll(props: FullPageScrollProps) {
   }, [dispatch]);
 
   useEffect(() => {
-    // effect run on first render to check the hash of the page that the url includes.
+    // sets the new index of the hash location the user is trying to visit.  E.g., if the user navigates to www.foo.com/#bar the effect
+    // will set the index in view to match the id of #bar.
 
     const hash = window.location.hash.replace("#", "");
 
     if (hash !== "undefined") {
-      dispatch({type: "setIndexFromId", payload: hash});
+      dispatch({ type: "setIndexFromId", payload: hash });
     } else {
-      dispatch({type: "setIndexInView", payload: 0});
+      dispatch({ type: "setIndexInView", payload: 0 });
     }
-
   }, []);
 
   const anchorTagsForIds = ids.map((id) => (
