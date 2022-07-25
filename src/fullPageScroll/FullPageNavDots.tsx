@@ -39,7 +39,7 @@ export function FullPageNavDots(props: FullPageNavDotsProps) {
 type FullPageNavDotProps = {
   id: string;
   index: number;
-  indexInView: number;
+  indexInView: number | null;
 };
 
 function FullPageNavDot(props: FullPageNavDotProps) {

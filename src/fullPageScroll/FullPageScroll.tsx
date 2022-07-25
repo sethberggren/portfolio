@@ -72,15 +72,21 @@ export default function FullPageScroll(props: FullPageScrollProps) {
     useFullPageDispatch()
   );
 
-  const { viewport, indexInView, ids, hasNavBar, viewportScrollAmount, scrollTiming, canScroll } = state;
+  const {
+    viewport,
+    indexInView,
+    ids,
+    hasNavBar,
+    viewportScrollAmount,
+    scrollTiming,
+    canScroll,
+  } = state;
 
   useEffect(() => {
-
     if (scrollTiming) {
-      dispatch({type: "setScrollTiming", payload: scrollTiming});
+      dispatch({ type: "setScrollTiming", payload: scrollTiming });
     }
-
-  }, [customScrollTiming])
+  }, [customScrollTiming]);
 
   useEffect(() => {
     const [allValid, numOfPanels] = childComponentSetup(children);
@@ -95,9 +101,13 @@ export default function FullPageScroll(props: FullPageScrollProps) {
   }, [children, dispatch]);
 
   useEffect(() => {
-    const scrollAmount = indexInView * viewport.height;
+    if (indexInView) {
+      const scrollAmount = indexInView * viewport.height;
 
-    dispatch({ type: "setViewPortScrollAmount", payload: scrollAmount });
+      dispatch({ type: "setViewPortScrollAmount", payload: scrollAmount });
+    } else {
+      dispatch({ type: "setViewPortScrollAmount", payload: 0 });
+    }
   }, [viewport, indexInView, dispatch]);
 
   const handleScroll = useCallback(
@@ -106,19 +116,25 @@ export default function FullPageScroll(props: FullPageScrollProps) {
 
       if (variation > 0 && canScroll) {
         dispatch({ type: "scrollDown", payload: null });
-        dispatch({type: "setCanScroll", payload: false});
-        window.setTimeout(() => {dispatch({type: "setCanScroll", payload: true})}, scrollTiming);
+        dispatch({ type: "setCanScroll", payload: false });
+        window.setTimeout(() => {
+          dispatch({ type: "setCanScroll", payload: true });
+        }, scrollTiming);
       } else if (variation < 0 && canScroll) {
         dispatch({ type: "scrollUp", payload: null });
-        dispatch({type: "setCanScroll", payload: false});
-        window.setTimeout(() => {dispatch({type: "setCanScroll", payload: true})}, scrollTiming);
+        dispatch({ type: "setCanScroll", payload: false });
+        window.setTimeout(() => {
+          dispatch({ type: "setCanScroll", payload: true });
+        }, scrollTiming);
       }
     },
     [canScroll, scrollTiming, dispatch]
   );
 
   useEffect(() => {
-    window.location.hash = ids[indexInView];
+    if (indexInView !== null) {
+      window.location.hash = ids[indexInView];
+    }
   }, [indexInView, ids]);
 
   useEffect(() => {
@@ -128,8 +144,6 @@ export default function FullPageScroll(props: FullPageScrollProps) {
   }, [handleScroll]);
 
   const handleResize = useCallback(() => {
-
-    console.log("handleResize has been called from inside fullPageScroll.tsx");
     dispatch({
       type: "setViewport",
       payload: { width: window.innerWidth, height: window.innerHeight },
@@ -137,23 +151,40 @@ export default function FullPageScroll(props: FullPageScrollProps) {
   }, [dispatch]);
 
   useEffect(() => {
-
-    console.log("trying to set the event listenenr....");
     window.addEventListener("resize", () => handleResize());
 
     return () => window.removeEventListener("resize", () => handleResize());
-  }, []);
+  }, [handleResize]);
 
   useEffect(() => {
-    // sets the new index if the location is refreshed.  E.g., if the user navigates to www.foo.com/#bar the effect
-    // will set the index in view to match the id of #bar.
 
-    console.log(window.location.hash);
-  }, []);
+    // sets the index in view when the hash location changes.
+
+    window.onhashchange = () => {
+      const hash = window.location.hash.replace("#", "");
+
+      if (hash !== "undefined") {
+        dispatch({ type: "setIndexFromId", payload: hash });
+      }
+    };
+
+    return () => {
+      window.onhashchange = null;
+    };
+  }, [dispatch]);
 
   useEffect(() => {
-    console.log("Here's the viewport height" + viewport.height);
-  }, [viewport]);
+    // effect run on first render to check the hash of the page that the url includes.
+
+    const hash = window.location.hash.replace("#", "");
+
+    if (hash !== "undefined") {
+      dispatch({type: "setIndexFromId", payload: hash});
+    } else {
+      dispatch({type: "setIndexInView", payload: 0});
+    }
+
+  }, []);
 
   const anchorTagsForIds = ids.map((id) => (
     <AnchorTagsForIds id={id} key={`anchor-${id}`} />
@@ -161,7 +192,7 @@ export default function FullPageScroll(props: FullPageScrollProps) {
 
   const transition = {
     transform: `translate3d(0px, -${viewportScrollAmount}px, 0px)`,
-    transition: `transform ${scrollTiming/1000}s ease`,
+    transition: `transform ${scrollTiming / 1000}s ease`,
   };
 
   return (

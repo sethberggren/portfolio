@@ -6,7 +6,7 @@ import {
 } from "../state/stateManagment";
 
 type FullPageSharedState = {
-  indexInView: number;
+  indexInView: number | null;
   ids: string[];
   numOfPanels: number;
   hasNavBar: boolean;
@@ -19,7 +19,7 @@ type FullPageSharedState = {
 };
 
 const fullPageInitialState: FullPageSharedState = {
-  indexInView: 0,
+  indexInView: null,
   ids: [] as string[],
   numOfPanels: 0,
   hasNavBar: false,
@@ -80,7 +80,7 @@ const fullPageReducerFunctions: ReducerFunctions<
   scrollUp: (state: FullPageSharedState, { payload }: { payload: null }) => {
     const { numOfPanels, indexInView, canScroll } = state;
 
-    if (indexInView > 0 && canScroll) {
+    if (indexInView !== null && indexInView > 0 && canScroll) {
       return { ...state, indexInView: indexInView - 1 };
     } else {
       return { ...state };
@@ -90,7 +90,7 @@ const fullPageReducerFunctions: ReducerFunctions<
   scrollDown: (state: FullPageSharedState, { payload }: { payload: null }) => {
     const { numOfPanels, indexInView, canScroll} = state;
 
-    if (indexInView < numOfPanels - 1 && canScroll) {
+    if (indexInView !== null && indexInView < numOfPanels - 1 && canScroll) {
       return { ...state, indexInView: indexInView + 1 };
     } else {
       return { ...state };
