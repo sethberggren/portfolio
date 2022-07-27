@@ -41,7 +41,6 @@ const childComponentSetup = (children: React.ReactNode) => {
             type !== FullPageContent &&
             type !== FullPageNavDots
           ) {
-            console.log(type);
             allValid = false;
           }
 

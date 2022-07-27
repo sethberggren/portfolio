@@ -1,3 +1,5 @@
+@import "..//App.module.scss";
+
 $numOfScrollElements: 0;
 
 .fullPageElement {
@@ -5,73 +7,51 @@ $numOfScrollElements: 0;
 }
 
 .fullPageNav {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    top: 50%;
-    right: 2.5%;
-    text-align: center;
+  @include navDotsContainer(".fullPageNavItem", ".fullPageNavItemActive");
+  flex-direction: column;
+  top: 50%;
+  right: 2.5%;
 }
 
-.fullPageNav ul {
-    padding: 0;
-    margin: 0;
-}
+// .fullPageNav ul {
+//     padding: 0;
+//     margin: 0;
+// }
 
 .fullPageNav ul li {
-    display: block;
-    width: 20px;
-    height: 20px;
-    margin: 4px;
-    position: relative;
+  display: block;
 }
 
-.fullPageNav ul li a {
-    cursor: pointer;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    height: 100%;
-    width: 100%;
-    z-index: 1;
-}
+// .fullPageNav ul li a {
+//     cursor: pointer;
+//     display: flex;
+//     flex-direction: row;
+//     align-items: center;
+//     justify-content: center;
+//     position: relative;
+//     height: 100%;
+//     width: 100%;
+//     z-index: 1;
+// }
 
 .fullPageNav ul li a:hover {
-    .fullPageNavItem {
-        transform: scale(200%);
-        transition: transform 0.3s ease-in-out;
-    }
+  .fullPageNavItem {
+    transform: scale(200%);
+    transition: transform 0.3s ease-in-out;
+  }
 
-    .fullPageNavItemActive {
-        transform: scale(100%);
-        transition: none;
-    }
+  .fullPageNavItemActive {
+    transform: scale(100%);
+    transition: none;
+  }
 }
 
 .fullPageNavItem {
-    border-radius: 50%;
-    position: absolute;
-    z-index: 1;
-    height: 25%;
-    width: 25%;
-    border: 0;
-    background: black;
-
+  @extend .navDot;
 }
 
 .fullPageNavItemActive {
-    height: 75%;
-    width: 75%;
-}
-
-.fullPageNavItemActive:hover {
-    height: 75%;
-    width: 75%;
+  @extend .navDotActive;
 }
 
 .fullPageContainer {
@@ -82,5 +62,5 @@ $numOfScrollElements: 0;
 }
 
 a[id="about"]:target ~ #main {
-    transform: translate3d(0px, -1251px, 0px);
+  transform: translate3d(0px, -1251px, 0px);
 }

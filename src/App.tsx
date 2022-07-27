@@ -8,7 +8,6 @@ import About from "./about/About";
 import { useEffect } from "react";
 import { useGlobalDispatch } from "./state/globalContext";
 import Projects from "./projects/Projects";
-import FullPageProvider from "./fullPageScroll/FullPageProvider";
 import { FullPageNavBar } from "./fullPageScroll/FullPageNavBar";
 import { FullPageContent } from "./fullPageScroll/FullPageContent";
 import { FullPageNavDots } from "./fullPageScroll/FullPageNavDots";
@@ -56,7 +55,7 @@ function App() {
   }, []);
 
   const renderedContent = fullPageElements.map((element, index) => (
-    <FullPageContent id={element.id} index={index}>
+    <FullPageContent referenceId={element.id} index={index}>
       {element.jsx}
     </FullPageContent>
   )) as React.ReactElement<any>[];

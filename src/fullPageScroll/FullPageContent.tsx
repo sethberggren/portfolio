@@ -10,11 +10,11 @@ import styles from "./fullPageScroll.module.scss";
 export type FullPageContentProps = {
   index: number;
   children: React.ReactNode;
-  id: string;
+  referenceId: string;
 };
 
 export function FullPageContent(props: FullPageContentProps) {
-  const { children, id, index } = props;
+  const { children, referenceId, index } = props;
 
   const currPageRef = useRef<HTMLDivElement>(null);
 
@@ -26,8 +26,8 @@ export function FullPageContent(props: FullPageContentProps) {
   const [contentHeight, setContentHeight] = useState(viewport.height);
 
   useEffect(() => {
-    dispatch({ type: "addId", payload: { id: id, index: index } });
-  }, [id, dispatch]);
+    dispatch({ type: "addId", payload: { id: referenceId, index: index } });
+  }, [referenceId, dispatch]);
 
   useEffect(() => {
     let newHeight = 0;
@@ -48,7 +48,7 @@ export function FullPageContent(props: FullPageContentProps) {
     }
   }, [indexInView]);
 
-  const fullPageId = `fullPage-${id}`;
+  const fullPageId = `fullPage-${referenceId}`;
 
   return (
     <div

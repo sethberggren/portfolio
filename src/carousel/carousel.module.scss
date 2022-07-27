@@ -1,0 +1,64 @@
+@import "../App.module.scss";
+
+.carouselMain {
+  position: relative;
+  overflow: hidden;
+  background-color: inherit;
+}
+
+.carouselInner {
+  height: 100%;
+  white-space: nowrap;
+  position: relative;
+  z-index: 50;
+}
+
+.carouselNav {
+  @include navDotsContainer(".carouselNavItem", ".carouselNavItemActive");
+  width: 100%;
+  flex-direction: row;
+  bottom: 2.5%;
+}
+
+.carouselNav ul li {
+  display: inline-block;
+}
+
+.carouselNavItem {
+  @extend .navDot;
+}
+
+.carouselNavItemActive {
+  @extend .navDotActive;
+}
+
+.carouselArrowContainer {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.carouselArrow {
+  border: none;
+  cursor: pointer;
+  background-color: inherit;
+  height: 100%;
+  width: 5%;
+}
+
+.carouselItem {
+  height: 100%;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 600;
+}

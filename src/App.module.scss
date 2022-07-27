@@ -54,3 +54,66 @@ html {
 body {
   overflow: hidden;
 }
+
+
+// GLOBAL STYLES
+
+@mixin navDotsContainer($inactiveDotClass: ".navDot", $activeDotClass: ".navDotActive") {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  text-align: center;
+
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+
+  ul li {
+    width: 20px;
+    height: 20px;
+    margin: 4px;
+    position: relative;
+  }
+
+  ul li a,div {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+  }
+
+  ul li a:hover,div:hover {
+    #{$inactiveDotClass} {
+      transform: scale(200%);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    #{$activeDotClass} {
+      transform: scale(100%);
+      transition: none;
+    }
+  }
+}
+
+.navDot {
+  border-radius: 50%;
+  position: absolute;
+  z-index: 1;
+  height: 25%;
+  width: 25%;
+  border: 0;
+  background: black;
+}
+
+.navDotActive { 
+  height: 75%;
+  width: 75%;
+}
