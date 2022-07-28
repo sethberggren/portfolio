@@ -11,7 +11,7 @@ export type FullPageNavDotsProps = {
 };
 
 export function FullPageNavDots(props: FullPageNavDotsProps) {
-  const { ids, indexInView, viewportScrollAmount, scrollTiming } = useFullPageContext();
+  const { ids, indexInView, viewportScrollAmount, scrollTiming, viewport, navBarHeight } = useFullPageContext();
 
   const renderedNav = ids.map((id, index) => (
     <FullPageNavDot id={id} index={index} indexInView={indexInView} key={`full-page-nav-dot-${id}`}/>

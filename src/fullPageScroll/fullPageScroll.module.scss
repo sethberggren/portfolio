@@ -9,7 +9,8 @@ $numOfScrollElements: 0;
 .fullPageNav {
   @include navDotsContainer(".fullPageNavItem", ".fullPageNavItemActive");
   flex-direction: column;
-  top: 50%;
+  height: 100%;
+  top: 0%;
   right: 2.5%;
 }
 
