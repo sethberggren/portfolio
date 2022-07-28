@@ -1,8 +1,6 @@
 import { dispatch } from "@svgdotjs/svg.js";
 import { MouseEventHandler, useCallback } from "react";
 import {
-  checkContext,
-  checkDispatch,
   useFullPageContext,
   useFullPageDispatch,
 } from "./FullPageContext";
@@ -13,12 +11,10 @@ export type FullPageNavDotsProps = {
 };
 
 export function FullPageNavDots(props: FullPageNavDotsProps) {
-  const { ids, indexInView, viewportScrollAmount, scrollTiming } = checkContext(
-    useFullPageContext()
-  );
+  const { ids, indexInView, viewportScrollAmount, scrollTiming } = useFullPageContext();
 
   const renderedNav = ids.map((id, index) => (
-    <FullPageNavDot id={id} index={index} indexInView={indexInView} />
+    <FullPageNavDot id={id} index={index} indexInView={indexInView} key={`full-page-nav-dot-${id}`}/>
   ));
 
   const transition = {
@@ -45,7 +41,7 @@ type FullPageNavDotProps = {
 function FullPageNavDot(props: FullPageNavDotProps) {
   const { id, index, indexInView } = props;
 
-  const dispatch = checkDispatch(useFullPageDispatch());
+  const dispatch = useFullPageDispatch();
 
   // if id = pageInView, then set active page style
   const navStyles = `${styles.fullPageNavItem} ${

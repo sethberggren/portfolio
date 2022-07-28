@@ -39,6 +39,7 @@ function HeaderButtons() {
     <HeaderButton
       display={headerButton.display}
       link={headerButton.link}
+      key={`header-button-${headerButton.link}`}
     />
   ));
 

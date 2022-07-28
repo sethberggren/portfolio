@@ -5,7 +5,6 @@ import React, {
 import appRoutes from "../routes";
 import { FullPageContent } from "./FullPageContent";
 import {
-  checkContextAndDispatch,
   providerProps,
   useFullPageContext,
   useFullPageDispatch,
@@ -75,10 +74,6 @@ export default function FullPageScroll(props: FullPageScrollProps) {
 
 function FullPageContainer(props: FullPageScrollProps) {
   const { children, customScrollTiming } = props;
-  const [state, dispatch] = checkContextAndDispatch(
-    useFullPageContext(),
-    useFullPageDispatch()
-  );
 
   const {
     viewport,
@@ -88,7 +83,9 @@ function FullPageContainer(props: FullPageScrollProps) {
     viewportScrollAmount,
     scrollTiming,
     canScroll,
-  } = state;
+  } = useFullPageContext();
+
+  const dispatch = useFullPageDispatch();
 
   useEffect(() => {
     if (scrollTiming) {

@@ -13,7 +13,7 @@ export default function CarouselNavDots() {
   }, [dispatch]);
 
   const renderedNavItems = ids.map((id, index) => (
-    <CarouselNavDot id={id} index={index} indexInView={indexInView} />
+    <CarouselNavDot id={id} index={index} indexInView={indexInView} key={`carousel-nav-dot-${id}`}/>
   ));
 
   return (

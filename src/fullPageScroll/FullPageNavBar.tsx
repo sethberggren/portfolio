@@ -1,8 +1,6 @@
 
 import React, { useEffect, useCallback } from "react";
 import {
-  checkContext,
-  checkDispatch,
   useFullPageContext,
   useFullPageDispatch,
 } from "./FullPageContext";
@@ -16,8 +14,8 @@ export type FullPageTopBarProps = {
 export function FullPageNavBar(props: FullPageTopBarProps) {
   const { heightPercentage, persistent, children } = props;
 
-  const { viewport, navBarHeight } = checkContext(useFullPageContext());
-  const dispatch = checkDispatch(useFullPageDispatch());
+  const { viewport, navBarHeight } = useFullPageContext();
+  const dispatch = useFullPageDispatch();
 
   useEffect(() => {
     dispatch({
@@ -43,7 +41,7 @@ export type FullPageNavButtonProps = {
 export function FullPageNavButton(props: FullPageNavButtonProps) {
     const {children, linkingId, ...rest} = props;
 
-    const dispatch = checkDispatch(useFullPageDispatch());
+    const dispatch = useFullPageDispatch();
 
     const clickHandler = useCallback(() => {
         dispatch({type: "setIndexFromId", payload: linkingId});

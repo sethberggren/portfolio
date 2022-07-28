@@ -14,6 +14,7 @@ export default function CarouselArrows() {
     <div className={styles.carouselArrowContainer}>
       <button
         className={styles.carouselArrow}
+        aria-label={`Move items left`}
         onClick={() => dispatch({ type: "shiftLeft", payload: null })}
       >
         {leftButton}
@@ -21,6 +22,7 @@ export default function CarouselArrows() {
 
       <button
         className={styles.carouselArrow}
+        aria-label={`Move items right`}
         onClick={() => dispatch({ type: "shiftRight", payload: null })}
       > 
         {rightButton}

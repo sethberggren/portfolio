@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import {
-  checkContext,
-  checkDispatch,
   useFullPageContext,
   useFullPageDispatch,
 } from "./FullPageContext";
@@ -18,10 +16,8 @@ export function FullPageContent(props: FullPageContentProps) {
 
   const currPageRef = useRef<HTMLDivElement>(null);
 
-  const dispatch = checkDispatch(useFullPageDispatch());
-  const { hasNavBar, viewport, navBarHeight, indexInView } = checkContext(
-    useFullPageContext()
-  );
+  const dispatch = useFullPageDispatch();
+  const { hasNavBar, viewport, navBarHeight, indexInView } = useFullPageContext();
 
   const [contentHeight, setContentHeight] = useState(viewport.height);
 
@@ -38,7 +34,6 @@ export function FullPageContent(props: FullPageContentProps) {
       newHeight = viewport.height;
     }
 
-    console.log("Here's the new height" + newHeight);
     setContentHeight(newHeight);
   }, [index, viewport, hasNavBar, navBarHeight, dispatch]);
 
