@@ -1,23 +1,38 @@
 import React from "react";
 import logo from "./logo.svg";
 import styles from "./App.module.scss";
-import Header from "./header/Header";
+import { ReactComponent as IcebergLogo } from "./waves/iceberg.svg";
 import { Waves } from "./waves/Waves";
 import FullPageScroll from "./fullPageScroll/FullPageScroll";
 import About from "./about/About";
 import { useEffect } from "react";
 import { useGlobalDispatch } from "./state/globalContext";
 import Projects from "./projects/Projects";
-import { FullPageNavBar } from "./fullPageScroll/FullPageNavBar";
+import {
+  FullPageNavBar,
+  FullPageNavBarTitle,
+  FullPageNavButton,
+} from "./fullPageScroll/FullPageNavBar";
 import { FullPageContent } from "./fullPageScroll/FullPageContent";
 import { FullPageNavDots } from "./fullPageScroll/FullPageNavDots";
 import appRoutes from "./routes";
+import headerStyles from "./header/header.module.scss";
 
 export type FullPageElements = {
   jsx: JSX.Element;
   id: keyof typeof appRoutes;
 }[];
 
+type HeaderButton = {
+  display: string;
+  link: keyof typeof appRoutes;
+};
+
+const headerButtons: HeaderButton[] = [
+  { display: "About", link: "about" },
+  { display: "Projects", link: "projects" },
+  { display: "Contact", link: "contact" },
+];
 function App() {
   const dispatch = useGlobalDispatch();
 
@@ -54,6 +69,18 @@ function App() {
     return window.removeEventListener("resize", () => dispatchWindowChange());
   }, []);
 
+  const renderedHeaderButtons = headerButtons.map((button) => {
+    return (
+      <FullPageNavButton
+        linkingId={button.link}
+        key={`full-page-nav-button-${button.link}`}
+        className={headerStyles.headerButton}
+      >
+        <p>{button.display}</p>
+      </FullPageNavButton>
+    );
+  });
+
   const renderedContent = fullPageElements.map((element, index) => (
     <FullPageContent referenceId={element.id} index={index}>
       {element.jsx}
@@ -63,8 +90,14 @@ function App() {
   return (
     <>
       <FullPageScroll>
-        <FullPageNavBar heightPercentage={10}>
-          <Header />
+        <FullPageNavBar className={headerStyles.header} heightPercentage={10}>
+          <FullPageNavBarTitle>
+            <IcebergLogo className={headerStyles.headerIceberg} />
+
+            <h1 className={headerStyles.headerText}>Iceberggren</h1>
+          </FullPageNavBarTitle>
+
+          {renderedHeaderButtons as any}
         </FullPageNavBar>
 
         <FullPageNavDots location="right" />

@@ -16,6 +16,7 @@ type FullPageSharedState = {
   viewportScrollAmount: number;
   scrollTiming: number;
   canScroll: boolean;
+  drawerIsOpen: boolean;
 };
 
 const fullPageInitialState: FullPageSharedState = {
@@ -29,6 +30,7 @@ const fullPageInitialState: FullPageSharedState = {
   viewportScrollAmount: 0,
   scrollTiming: 500,
   canScroll: true,
+  drawerIsOpen: false,
 };
 
 type FullPageActions =
@@ -71,7 +73,11 @@ type FullPageActions =
       payload: string;
     }
   | { type: "setScrollTiming"; payload: number }
-  | { type: "setCanScroll"; payload: boolean };
+  | { type: "setCanScroll"; payload: boolean }
+  | {
+      type: "setDrawerIsOpen";
+      payload: boolean;
+    };
 
 const fullPageReducerFunctions: ReducerFunctions<
   FullPageSharedState,
@@ -191,6 +197,12 @@ const fullPageReducerFunctions: ReducerFunctions<
     { payload }: { payload: boolean }
   ) => {
     return { ...state, canScroll: payload };
+  },
+  setDrawerIsOpen: (
+    state: FullPageSharedState,
+    { payload }: { payload: boolean }
+  ) => {
+    return { ...state, drawerIsOpen: payload };
   },
 };
 
