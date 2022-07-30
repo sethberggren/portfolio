@@ -1,7 +1,6 @@
 import React from "react";
 import {
   createStateManagement,
-  DispatchAction,
   ReducerFunctions,
 } from "../state/stateManagment";
 
@@ -84,7 +83,7 @@ const fullPageReducerFunctions: ReducerFunctions<
   FullPageActions
 > = {
   scrollUp: (state: FullPageSharedState, { payload }: { payload: null }) => {
-    const { numOfPanels, indexInView, canScroll } = state;
+    const { indexInView, canScroll } = state;
 
     if (indexInView !== null && indexInView > 0 && canScroll) {
       return { ...state, indexInView: indexInView - 1 };

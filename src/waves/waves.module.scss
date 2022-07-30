@@ -13,7 +13,7 @@
 .welcome {
   font-family: $bodyFont;
   font-size: 4rem;
-  padding: 20% 15rem 0;
+  padding: 5% 7.5rem 0;
   text-align: center;
   color: white;
 
@@ -22,10 +22,10 @@
   z-index: 10;
 }
 
-@media (max-width: $md) {
+@media (max-width: $lg) {
   .welcome {
-    padding: 25% 1rem 0;
-    font-size: 2rem;
+    padding: 10% 1rem 0;
+    font-size: 1.5rem;
   }
 }
 

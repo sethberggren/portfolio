@@ -17,7 +17,7 @@ export default function CarouselItem(props: CarouselItemProps) {
 
   useEffect(() => {
     dispatch({ type: "addId", payload: { id: referenceId, index: index } });
-  }, [referenceId, dispatch]);
+  }, [index, referenceId, dispatch]);
 
   const carouselId = `carousel-${referenceId}`;
 

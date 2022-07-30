@@ -1,4 +1,4 @@
-import { forwardRef, MutableRefObject, useEffect } from "react";
+import { forwardRef} from "react";
 import styles from "./carousel.module.scss";
 import { useCarouselContext, useCarouselDispatch } from "./CarouselContext";
 

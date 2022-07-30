@@ -79,7 +79,6 @@ function FullPageContainer(props: FullPageScrollProps) {
     viewport,
     indexInView,
     ids,
-    hasNavBar,
     viewportScrollAmount,
     scrollTiming,
     canScroll,
@@ -88,8 +87,8 @@ function FullPageContainer(props: FullPageScrollProps) {
   const dispatch = useFullPageDispatch();
 
   useEffect(() => {
-    if (scrollTiming) {
-      dispatch({ type: "setScrollTiming", payload: scrollTiming });
+    if (customScrollTiming) {
+      dispatch({ type: "setScrollTiming", payload: customScrollTiming });
     }
   }, [customScrollTiming]);
 

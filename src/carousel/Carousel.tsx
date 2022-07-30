@@ -62,9 +62,7 @@ function CarouselContainer(props: CarouselProps) {
 
   const {
     indexInView,
-    ids,
     scrollTiming,
-    arrowWidth
   } = useCarouselContext();
   const dispatch = useCarouselDispatch();
 
@@ -129,7 +127,7 @@ function CarouselContainer(props: CarouselProps) {
         dispatch({type: "setCarouselItemWidth", payload: carouselItemWidth});
         dispatch({type: "setArrowWidth", payload: newArrowWidth});
       }
-  }, [arrowWidth, dispatch])
+  }, [dispatch])
 
 
   useEffect(() => {
@@ -139,10 +137,6 @@ function CarouselContainer(props: CarouselProps) {
 
     return () => window.removeEventListener("resize", handleResize)
   }, [])
-
-  const anchorTagsForIds = ids.map((id) => (
-    <AnchorTagsForIds id={id} key={`anchor-${id}`} />
-  ));
 
   const transition = {
     transform: `translateX(-${indexInView*100}%)`,
@@ -167,10 +161,4 @@ function CarouselContainer(props: CarouselProps) {
       </div>
     </>
   );
-}
-
-function AnchorTagsForIds(props: { id: string }) {
-  const { id } = props;
-
-  return <div id={id}></div>;
 }

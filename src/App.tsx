@@ -89,7 +89,7 @@ function App() {
 
   return (
     <>
-      <FullPageScroll>
+      <FullPageScroll customScrollTiming={1500}>
         <FullPageNavBar className={headerStyles.header} heightPercentage={10}>
           <FullPageNavBarTitle>
             <IcebergLogo className={headerStyles.headerIceberg} />
