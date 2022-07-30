@@ -95,6 +95,7 @@ describe("Full Page Scroll Tests", () => {
         expect(panel).toHaveStyle(
           `height: ${window.innerHeight * (1 - heightPercentage / 100)}px`
         );
+        
       } else {
         expect(panel).toHaveStyle(`height: ${window.innerHeight}px`);
       }

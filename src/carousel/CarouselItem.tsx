@@ -13,7 +13,7 @@ export default function CarouselItem(props: CarouselItemProps) {
 
   const dispatch = useCarouselDispatch();
 
-  const { displaySize } = useCarouselContext();
+  const { carouselItemWidth, arrowWidth } = useCarouselContext();
 
   useEffect(() => {
     dispatch({ type: "addId", payload: { id: referenceId, index: index } });
@@ -24,11 +24,14 @@ export default function CarouselItem(props: CarouselItemProps) {
   return (
     <div
       id={carouselId}
+      style={{
+        width: `${carouselItemWidth}px`,
+        marginLeft: `${arrowWidth}px`,
+        marginRight: `${arrowWidth}px`,
+      }}
       className={styles.carouselItem}
     >
       {children}
     </div>
   );
 }
-
-

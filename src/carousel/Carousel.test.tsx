@@ -15,9 +15,9 @@ const idsAndDisplay: { id: string; display: string }[] = [
     return { id: id.id, jsx: <h1>{id.display}</h1> };
   });
 
-  const testCarouselDisplaySize = {height: "10rem", width: "10rem"};
+  const testCarouselDisplaySize = {height: "80%", width: "80%"};
 
-  const testCarousel = <Carousel displaySize={{height: "10rem", width: "10rem"}}>
+  const testCarousel = <Carousel displaySize={testCarouselDisplaySize}>
     {slides.map((slide, index) => <CarouselItem index={index} referenceId={slide.id} key={`carousel-item-${slide.id}`}>{slide.jsx}</CarouselItem>)}
   </Carousel>
 
@@ -26,8 +26,12 @@ describe("Tests of Carousel Component", () => {
     let carouselWindow : HTMLElement | null | undefined;
     let innerDiv: HTMLElement | null | undefined;
 
+    let clientWidthSpy;
+
     beforeEach(() => {
       container = document.createElement("div");
+      container.style.height = "1000px";
+      container.style.width = "1000px";
       document.body.appendChild(container);
     });
   
@@ -52,16 +56,6 @@ describe("Tests of Carousel Component", () => {
         renderCarousel();
 
         expect(carouselWindow).toHaveStyle(`height: ${testCarouselDisplaySize.height}; width: ${testCarouselDisplaySize.width}`);
-
-        const expectedHeight = carouselWindow!.clientHeight;
-
-        expect(innerDiv?.clientHeight).toBeCloseTo(expectedHeight);
-
-        for (let i = 0; i < idsAndDisplay.length; i++) {
-            const id = idsAndDisplay[i];
-
-            expect(screen.getByText(id.display).parentElement?.clientHeight).toBeCloseTo(expectedHeight);
-        }
     });  
 
     it("should transition to a new page if the left/right buttons are clicked", () => {

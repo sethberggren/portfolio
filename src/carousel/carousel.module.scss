@@ -51,9 +51,15 @@
   width: 5%;
 }
 
+@media (max-width: $md) {
+  .carouselArrow {
+    min-width: 40px;
+    max-width: 5%;
+  }
+}
+
 .carouselItem {
   height: 100%;
-  width: 90%;
   margin-left: 5%;
   margin-right: 5%;
   display: inline-flex;

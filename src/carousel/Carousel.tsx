@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useCallback, useState, useRef } from "react";
 import { StateManagementProvider } from "../state/stateManagment";
 import CarouselArrows from "./CarouselArrows";
 import {
@@ -61,17 +61,18 @@ function CarouselContainer(props: CarouselProps) {
   } = props;
 
   const {
-    viewport,
     indexInView,
     ids,
-    viewportScrollAmount,
     scrollTiming,
-    hasArrows,
-    hasNavDots,
+    arrowWidth
   } = useCarouselContext();
   const dispatch = useCarouselDispatch();
 
   const [carouselItems, setCarouselItems] = useState<JSX.Element[]>([]);
+
+
+  const arrowButtonRef = useRef<HTMLButtonElement>(null);
+  const carouselContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const [allValid, numOfPanels, carouselItems] = childComponentSetup(
@@ -94,6 +95,51 @@ function CarouselContainer(props: CarouselProps) {
     }
   }, [customScrollTiming, dispatch]);
 
+
+  const getArrowWidth = () => {
+    const minWidth = 24;
+
+    const widthPercent = 0.05
+
+    const carouselContainerWidth = carouselContainerRef.current?.clientWidth;
+
+    if (carouselContainerWidth !== undefined) {
+        const computedWidthPercent = widthPercent*carouselContainerWidth;
+
+        if (computedWidthPercent > minWidth) {
+          return computedWidthPercent;
+        } else {
+          return minWidth;
+        }
+    } else {
+      throw new Error("Carousel container does not exist.");
+    } 
+  
+  }
+
+  const handleResize = useCallback(() => {
+
+    const newArrowWidth = getArrowWidth();
+
+      const carouselContainerWidth = carouselContainerRef.current?.clientWidth;
+
+      if (carouselContainerWidth) {
+        const carouselItemWidth = carouselContainerWidth - 2*newArrowWidth;
+
+        dispatch({type: "setCarouselItemWidth", payload: carouselItemWidth});
+        dispatch({type: "setArrowWidth", payload: newArrowWidth});
+      }
+  }, [arrowWidth, dispatch])
+
+
+  useEffect(() => {
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
   const anchorTagsForIds = ids.map((id) => (
     <AnchorTagsForIds id={id} key={`anchor-${id}`} />
   ));
@@ -103,7 +149,7 @@ function CarouselContainer(props: CarouselProps) {
     transition: `transform ${scrollTiming / 1000}s ease`,
   };
 
-  const otherStyles = {
+  const carouselContainerDimensions = {
     height: `${displaySize.height}`,
     width: `${displaySize.width}`,
   };
@@ -111,10 +157,11 @@ function CarouselContainer(props: CarouselProps) {
   return (
     <>
       <div
-        style={{ ...otherStyles }}
+        style={{ ...carouselContainerDimensions }}
         className={styles.carouselMain}
+        ref={carouselContainerRef}
       >
-        <CarouselArrows />
+        <CarouselArrows ref={arrowButtonRef}/>
         <CarouselNavDots />
         <div className={styles.carouselInner} style={transition}>{carouselItems}</div>
       </div>
