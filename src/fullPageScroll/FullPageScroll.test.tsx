@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import FullPageScroll from "./FullPageScroll";
 import { FullPageNavBar, FullPageNavButton } from "./FullPageNavBar";
@@ -222,5 +222,29 @@ describe("Full Page Scroll Tests", () => {
 
     navigationDrawerVisibility(false);
 
+  });
+
+  it("should show the section label when the nav dot is hovered", async () => {
+    renderFullPageScroll();
+
+    for (let i = 0; i < idsAndDisplay.length; i++) {
+
+      const id = idsAndDisplay[i];
+      const navDot = screen.getByLabelText(`Link to ${id.id} section.`);
+      
+      fireEvent.mouseEnter(navDot);
+
+      await waitFor(() => {
+        expect(navDot.firstChild).toHaveStyle("right: 1.5rem;");
+      })
+
+      fireEvent.mouseLeave(navDot);
+
+      await waitFor(() => {
+        expect(navDot.firstChild).toHaveStyle("right: -20rem");
+      });
+    }
+
+    
   })
 });

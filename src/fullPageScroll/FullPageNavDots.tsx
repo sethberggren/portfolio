@@ -44,12 +44,16 @@ type FullPageNavDotProps = {
   indexInView: number | null;
 };
 
+
+const hiddenLabelStyle = {right: "-20rem"};
+const visibleLabelStyle = {right: "1.5rem"};
+
 function FullPageNavDot(props: FullPageNavDotProps) {
   const { id, index, indexInView } = props;
 
   const dispatch = useFullPageDispatch();
 
-  const [labelStyle, setLabelStyle] = useState("");
+  const [labelStyle, setLabelStyle] = useState({right: "-20rem"});
 
   // if id = pageInView, then set active page style
   const navStyles = `${styles.fullPageNavItem} ${
@@ -61,12 +65,11 @@ function FullPageNavDot(props: FullPageNavDotProps) {
   }, [dispatch, index]);
 
   const handleMouseEnter = () => {
-    const newLabelStyle = `${styles.fullPageNavItemLabelVisible}`;
-    setLabelStyle(newLabelStyle);
+    setLabelStyle({...visibleLabelStyle});
   };
 
   const handleMouseLeave = () => {
-    setLabelStyle("");
+    setLabelStyle({...hiddenLabelStyle})
   };
 
   return (
@@ -78,7 +81,7 @@ function FullPageNavDot(props: FullPageNavDotProps) {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <span className={`${styles.fullPageNavItemLabel} ${labelStyle}`}>
+        <span className={styles.fullPageNavItemLabel} style={labelStyle}>
           <p>{id}</p>
         </span>
         <span className={navStyles} />
