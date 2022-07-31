@@ -1,10 +1,10 @@
 // COLORS
 
-$background-color: #3E92CC;
-$accent-color: #16324F;
+$background-color: #3e92cc; ;
+$accent-color: #16324f;
 $text-color: white;
 $futuraFont: futuraOblique;
-$bodyFont: 'Space Grotesk';
+$bodyFont: "Space Grotesk";
 
 // BREAKPOINTS
 $xl: 1200px;
@@ -12,23 +12,36 @@ $lg: 992px;
 $md: 768px;
 $sm: 600px;
 
-
 .App {
   text-align: center;
   width: 100vw;
 }
 
 .bodyText {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: 48px;
   color: white;
 }
 
 .sectionHeading {
   font-family: $futuraFont;
+  display: block;
+  padding-left: 2rem;
+  margin-bottom: 2rem;
   text-transform: uppercase;
-  font-size: 1rem;
+  font-size: 4rem;
   color: white;
+}
+
+@media (max-width: $lg) {
+  .sectionHeading {
+    font-size: 2.5rem;
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 0;
+  }
+
 }
 
 @font-face {
@@ -36,9 +49,10 @@ $sm: 600px;
   src: url("../public/fonts/obliqueFutura.otf");
 }
 
-// overrides 
+// overrides
 
-h1, h3 {
+h1,
+h3 {
   margin-block-start: 0;
   margin-block-end: 0;
 }
@@ -50,16 +64,19 @@ p {
 
 html {
   overflow: hidden;
+  font-size: 16px;
 }
 
 body {
   overflow: hidden;
 }
 
-
 // GLOBAL STYLES
 
-@mixin navDotsContainer($inactiveDotClass: ".navDot", $activeDotClass: ".navDotActive") {
+@mixin navDotsContainer(
+  $inactiveDotClass: ".navDot",
+  $activeDotClass: ".navDotActive"
+) {
   position: absolute;
   display: flex;
   align-items: center;
@@ -79,7 +96,8 @@ body {
     position: relative;
   }
 
-  ul li a,div {
+  ul li a,
+  div {
     cursor: pointer;
     display: flex;
     flex-direction: row;
@@ -91,7 +109,8 @@ body {
     z-index: 1;
   }
 
-  ul li a:hover,div:hover {
+  ul li a:hover,
+  div:hover {
     #{$inactiveDotClass} {
       transform: scale(200%);
       transition: transform 0.3s ease-in-out;
@@ -114,7 +133,7 @@ body {
   background: black;
 }
 
-.navDotActive { 
+.navDotActive {
   height: 75%;
   width: 75%;
 }
