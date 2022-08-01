@@ -1,14 +1,7 @@
 @import "../App.module.scss";
 
 .aboutContainer {
-  font-family: $bodyFont;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  height: 100%;
-  padding-right: 5%;
-  padding-bottom: 100%;
-  overflow: hidden;
+  @include sectionContainer;
   background-color: $accent-color;
 }
 
@@ -38,9 +31,7 @@
 }
 
 .divider {
-  border-right: 4px solid $background-color;
-  margin: 0 2rem;
-  height: 100%;
+  @include divider($background-color);
 }
 
 .aboutDetails {
@@ -98,11 +89,7 @@
     max-height: 75%;
     margin-bottom: 0rem;
   }
-
-  .divider {
-    display: none;
-  }
-
+  
   .aboutProfilePicture {
     margin-left: 0;
     display: flex;

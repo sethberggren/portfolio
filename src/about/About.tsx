@@ -10,6 +10,7 @@ import mySql from "./mySQL.svg";
 import expressJs from "./expressJs.svg";
 import react from "./react.svg";
 import digitalOcean from "./digitalOcean.svg";
+import SectionHeading from "../SectionHeading";
 
 const techonlogyLogos: TechnologyIconProps[] = [
   { src: js, displayName: "JavaScript" },
@@ -25,7 +26,7 @@ const techonlogyLogos: TechnologyIconProps[] = [
 export default function About() {
   return (
     <div className={styles.aboutContainer}>
-      <h3 className={globalStyles.sectionHeading}>About Me</h3>
+      <SectionHeading title="About Me"/>
 
       <div className={styles.aboutMain}>
         <div className={styles.aboutProfilePicture}>

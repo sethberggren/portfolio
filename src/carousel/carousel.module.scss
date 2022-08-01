@@ -48,20 +48,14 @@
   cursor: pointer;
   background-color: inherit;
   height: 100%;
-  width: 5%;
 }
 
-@media (max-width: $md) {
-  .carouselArrow {
-    min-width: 40px;
-    max-width: 5%;
-  }
+.carouselArrowIcon {
+  fill: white;
 }
 
 .carouselItem {
   height: 100%;
-  margin-left: 5%;
-  margin-right: 5%;
   display: inline-flex;
   align-items: center;
   justify-content: center;

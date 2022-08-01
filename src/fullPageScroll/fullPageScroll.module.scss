@@ -146,10 +146,6 @@ $numOfScrollElements: 0;
   transition: transform 700ms ease 0s;
 }
 
-a[id="about"]:target ~ #main {
-  transform: translate3d(0px, -1251px, 0px);
-}
-
 // HAMBURGER STYLES - gotten from this excellent source here https://github.com/jonsuh/hamburgers
 
 .hamburger {
