@@ -26,7 +26,7 @@ const techonlogyLogos: TechnologyIconProps[] = [
 export default function About() {
   return (
     <div className={styles.aboutContainer}>
-      <SectionHeading title="About Me"/>
+      <SectionHeading title="About Me" />
 
       <div className={styles.aboutMain}>
         <div className={styles.aboutProfilePicture}>
@@ -37,16 +37,22 @@ export default function About() {
 
         <div className={styles.aboutDetails}>
           <p className={styles.aboutText}>
-            I taught secondary math for 5 years in public schools before
-            transitioning into full-stack web development. I'm all about
-            leveraging technology to make the boring tasks a breeze.
-            <br></br> <br></br>
-            Huge fan of TypeScript everywhere - frontend and backend.
+            I love to learn by doing things.
+            <br></br> <br></br>I taught secondary math for 5 years in public
+            schools before transitioning into full-stack web development. I'm
+            all about leveraging technology to make the boring tasks a breeze.
           </p>
         </div>
       </div>
 
-      <div style={{display: "flex", alignItems: "center", justifyContent: "center", width: "100%"}}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
         <div className={styles.aboutTechnologyLogoContainer}>
           <p id={styles.logoContainerDescription}>Web Technologies I ❤️</p>
 
@@ -57,7 +63,6 @@ export default function About() {
           </div>
         </div>
       </div>
-
     </div>
   );
 }
