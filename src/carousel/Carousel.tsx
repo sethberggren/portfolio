@@ -54,23 +54,16 @@ function childComponentSetup(children: JSX.Element | JSX.Element[]) {
 }
 
 function CarouselContainer(props: CarouselProps) {
-  const {
-    displaySize,
-    scrollTiming: customScrollTiming,
-    children,
-  } = props;
+  const { displaySize, scrollTiming: customScrollTiming, children } = props;
 
-  const {
-    indexInView,
-    scrollTiming,
-  } = useCarouselContext();
+  const { indexInView, scrollTiming } = useCarouselContext();
   const dispatch = useCarouselDispatch();
 
   const [carouselItems, setCarouselItems] = useState<JSX.Element[]>([]);
 
-
   const arrowButtonRef = useRef<HTMLButtonElement>(null);
   const carouselContainerRef = useRef<HTMLDivElement>(null);
+  const navDotsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const [allValid, numOfPanels, carouselItems] = childComponentSetup(
@@ -93,53 +86,62 @@ function CarouselContainer(props: CarouselProps) {
     }
   }, [customScrollTiming, dispatch]);
 
-
   const getArrowWidth = () => {
     const minWidth = 24;
 
-    const widthPercent = 0.05
+    const widthPercent = 0.05;
 
     const carouselContainerWidth = carouselContainerRef.current?.clientWidth;
 
     if (carouselContainerWidth !== undefined) {
-        const computedWidthPercent = widthPercent*carouselContainerWidth;
+      const computedWidthPercent = widthPercent * carouselContainerWidth;
 
-        if (computedWidthPercent > minWidth) {
-          return computedWidthPercent;
-        } else {
-          return minWidth;
-        }
+      if (computedWidthPercent > minWidth) {
+        return computedWidthPercent;
+      } else {
+        return minWidth;
+      }
     } else {
       throw new Error("Carousel container does not exist.");
-    } 
-  
-  }
+    }
+  };
 
   const handleResize = useCallback(() => {
+    const resizeObserver = new ResizeObserver((entries) => {
+          const newArrowWidth = getArrowWidth();
 
-    const newArrowWidth = getArrowWidth();
+      const carouselContainerWidth = entries[0].contentRect.width;
 
-      const carouselContainerWidth = carouselContainerRef.current?.clientWidth;
+      const carouselContainerHeight = entries[0].contentRect.height;
+
+      const carouselNavDotsBottom = pixelStringToNumber(getComputedStyle(navDotsRef.current as HTMLDivElement).bottom);
+      const carouselNavDotsHeight = pixelStringToNumber(getComputedStyle(navDotsRef.current as HTMLDivElement).height);
+
+      console.log(`Here's the carousel container height ${carouselContainerHeight} and width ${carouselContainerWidth}`)
 
       if (carouselContainerWidth) {
         const carouselItemWidth = carouselContainerWidth - 2*newArrowWidth;
+        const carouselItemHeight = carouselContainerHeight - 2*carouselNavDotsBottom - carouselNavDotsHeight;
 
-        dispatch({type: "setCarouselItemWidth", payload: carouselItemWidth});
+        console.log("here's the carousel item height" + carouselItemHeight);
+
+        dispatch({type: "setCarouselItemDimensions", payload: {height: carouselItemHeight, width: carouselItemWidth}});
         dispatch({type: "setArrowWidth", payload: newArrowWidth});
       }
-  }, [dispatch])
+    });
 
+    return resizeObserver;
+
+  }, [dispatch]);
 
   useEffect(() => {
+    handleResize().observe(carouselContainerRef.current as HTMLDivElement);
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
+    return () => handleResize().unobserve(carouselContainerRef.current as HTMLDivElement);
+  }, []);
 
   const transition = {
-    transform: `translateX(-${indexInView*100}%)`,
+    transform: `translateX(-${indexInView * 100}%)`,
     transition: `transform ${scrollTiming / 1000}s ease`,
   };
 
@@ -155,10 +157,26 @@ function CarouselContainer(props: CarouselProps) {
         className={styles.carouselMain}
         ref={carouselContainerRef}
       >
-        <CarouselArrows ref={arrowButtonRef}/>
-        <CarouselNavDots />
-        <div className={styles.carouselInner} style={transition}>{carouselItems}</div>
+        <CarouselArrows ref={arrowButtonRef} />
+        <CarouselNavDots ref={navDotsRef}/>
+        <div className={styles.carouselInner} style={transition}>
+          {carouselItems}
+        </div>
       </div>
     </>
   );
+}
+
+
+function pixelStringToNumber(pixelString: string) {
+
+  const splitString = pixelString.split("px");
+
+  const pixelNumber = parseFloat(splitString[0]);
+
+  if (isNaN(pixelNumber)) {
+    throw new Error("Error, cannot convert pixel string to number");
+  }
+
+  return pixelNumber;
 }

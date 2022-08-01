@@ -4,11 +4,12 @@ import { useCarouselContext, useCarouselDispatch } from "./CarouselContext";
 
 const CarouselArrows = forwardRef<HTMLButtonElement>((props, ref) => {
 
-  const {arrowWidth} = useCarouselContext();
+  const {arrowWidth,carouselItemDimensions} = useCarouselContext();
   const dispatch = useCarouselDispatch();
 
   const arrowWidthStyle = {
-    width: `${arrowWidth}px`
+    width: `${arrowWidth}px`,
+    height: `${carouselItemDimensions.height}px`
   }
 
   return (

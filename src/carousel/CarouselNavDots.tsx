@@ -1,9 +1,9 @@
 import { useCarouselContext, useCarouselDispatch } from "./CarouselContext";
-import { useCallback, useEffect } from "react";
+import { forwardRef, useCallback, useEffect } from "react";
 import styles from "./carousel.module.scss";
 
-export default function CarouselNavDots() {
-  const { ids, indexInView, viewportScrollAmount, scrollTiming } =
+const CarouselNavDots = forwardRef<HTMLDivElement>((props, ref) => {
+  const { ids, indexInView } =
     useCarouselContext();
 
   const dispatch = useCarouselDispatch();
@@ -17,11 +17,11 @@ export default function CarouselNavDots() {
   ));
 
   return (
-    <nav className={styles.carouselNav}>
+    <nav className={styles.carouselNav} ref={ref}>
       <ul>{renderedNavItems}</ul>
     </nav>
   );
-}
+});
 
 type CarouselNavDotProps = {
   id: string;
@@ -52,3 +52,5 @@ function CarouselNavDot(props: CarouselNavDotProps) {
     </li>
   );
 }
+
+export default CarouselNavDots;
