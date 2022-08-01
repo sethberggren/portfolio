@@ -44,6 +44,8 @@
 }
 
 .carouselArrow {
+  position: absolute;
+  z-index: 100;
   border: none;
   cursor: pointer;
   background-color: inherit;

@@ -12,10 +12,10 @@ const CarouselArrows = forwardRef<HTMLButtonElement>((props, ref) => {
   }
 
   return (
-    <div className={styles.carouselArrowContainer}>
-      <button
+    <>
+     <button
         className={styles.carouselArrow}
-        style={arrowWidthStyle}
+        style={{...arrowWidthStyle, left: "0%"}}
         ref={ref}
         aria-label={`Move items left`}
         onClick={() => dispatch({ type: "shiftLeft", payload: null })}
@@ -25,13 +25,14 @@ const CarouselArrows = forwardRef<HTMLButtonElement>((props, ref) => {
 
       <button
         className={styles.carouselArrow}
-        style={arrowWidthStyle}
+        style={{...arrowWidthStyle, right: "0%"}}
         aria-label={`Move items right`}
         onClick={() => dispatch({ type: "shiftRight", payload: null })}
       >
         {rightButton}
       </button>
-    </div>
+    </>
+     
   );
 });
 
