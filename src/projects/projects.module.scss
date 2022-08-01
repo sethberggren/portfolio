@@ -70,12 +70,12 @@
 .projectDetails {
     @include flexCol;
     padding: 0 2rem;
+    overflow: scroll;
     width: 50%;
 }
 
 .projectDescription {
     white-space: normal;
-    overflow: scroll;
     width: 100%;
     line-height: 150%;
     font-size: 1.25rem;
@@ -84,7 +84,7 @@
 @media (max-width: $lg) {
     .projectContainer {
         @include flexCol;
-        height: 100%;
+        height: 90%;
         width: 100%;
         justify-content: flex-start;
     }

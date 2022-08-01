@@ -64,3 +64,9 @@
   position: relative;
   z-index: 600;
 }
+
+@media (max-width: $lg) {
+  .carouselItem {
+    align-items: flex-start;
+  }
+}
