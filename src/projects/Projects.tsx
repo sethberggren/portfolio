@@ -4,8 +4,9 @@ import CarouselItem from "../carousel/CarouselItem";
 import CarouselNavDots from "../carousel/CarouselNavDots";
 import SectionHeading from "../SectionHeading";
 import styles from "./projects.module.scss";
-import {ReactComponent as ExternalLinkLogo} from "./externalLink.svg"
-import {ReactComponent as GithubLogo} from "./github.svg"
+import { ReactComponent as ExternalLinkLogo } from "../icons/externalLink.svg";
+import { ReactComponent as GithubLogo } from "../icons/github.svg";
+import ButtonLink from "../common/ButtonLink";
 
 const gradezprDescription = (
   <p>
@@ -19,8 +20,8 @@ const gradezprDescription = (
     <br /> <br />
     Gradezpr was designed to rectify this issue by using the student's ID as a
     unique identifier for quicker LMS imports. <br></br> <br></br>It includes
-    other features such as: curving student grades, summary statistics
-    for an assignment, and importing grades into PowerSchool through a Chrome
+    other features such as: curving student grades, summary statistics for an
+    assignment, and importing grades into PowerSchool through a Chrome
     extension.
   </p>
 );
@@ -76,22 +77,12 @@ function Project(props: ProjectProps) {
         <h4 className={styles.projectName}>{name}</h4>
 
         <div className={styles.projectButtons}>
-          <a
+          <ButtonLink
             href={projectLink}
-            className={styles.projectButton}
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            <ExternalLinkLogo className={styles.projectButtonLogo}/>
-          </a>
-          <a
-            href={githubLink}
-            className={styles.projectButton}
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            <GithubLogo className={styles.projectButtonLogo}/>
-          </a>
+            icon={<ExternalLinkLogo />}
+            color="accent"
+          />
+          <ButtonLink href={githubLink} icon={<GithubLogo />} color="accent" />
         </div>
       </div>
 

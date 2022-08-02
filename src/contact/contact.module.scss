@@ -1,0 +1,32 @@
+@import "../App.module.scss";
+
+.contactContainer {
+    @include sectionContainer;
+    background-color: $accent-color;
+}
+
+.contactDivider {
+    @include divider;
+}
+
+.detailsContainer {
+    @include flexRow;
+    height: 75%;
+    width: 100%;
+}
+
+.textAndSocials {
+    @include flexCol;
+    padding-right: 5%;
+    width: 50%;
+}
+
+.socials {
+    @include flexRow;
+}
+
+.contactFormContainer {
+    @include flexCol;
+    padding-left: 5%;
+    width: 50%;
+}

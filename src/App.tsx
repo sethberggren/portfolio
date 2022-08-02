@@ -17,6 +17,7 @@ import { FullPageContent } from "./fullPageScroll/FullPageContent";
 import { FullPageNavDots } from "./fullPageScroll/FullPageNavDots";
 import appRoutes from "./routes";
 import headerStyles from "./header/header.module.scss";
+import Contact from "./contact/Contact";
 
 export type FullPageElements = {
   jsx: JSX.Element;
@@ -49,6 +50,10 @@ function App() {
       id: "projects",
       jsx: <Projects />,
     },
+    {
+      id: "contact",
+      jsx: <Contact />
+    }
   ];
 
   const dispatchWindowChange = () => {

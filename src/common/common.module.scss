@@ -1,0 +1,41 @@
+@import "../App.module.scss";
+
+@mixin externalButtonLink($color: $accent-color) {
+  @include center;
+  cursor: pointer;
+  height: 5rem;
+  width: 5rem;
+  background-color: $color;
+  border-radius: 1.5rem;
+
+  @media (max-width: $lg) {
+    height: 3rem;
+    width: 3rem;
+    border-radius: 1rem;
+  }
+
+  svg {
+    transition: 0.5s fill ease-in-out;
+    height: 50%;
+    width: 50%;
+    fill: white;
+  }
+
+  &:hover {
+    svg {
+      @if ($color == $accent-color) {
+        fill: $background-color;
+      } @else {
+        fill: $accent-color;
+      }
+    }
+  }
+}
+
+.externalButtonPrimary {
+  @include externalButtonLink($background-color);
+}
+
+.externalButtonAccent {
+  @include externalButtonLink();
+}

@@ -32,29 +32,6 @@
     width: 50%;
 }
 
-.projectButton {
-    @include center;
-    cursor: pointer;
-    height: 5rem;
-    width: 5rem;
-    background-color: $accent-color;
- 
-    border-radius: 1.5rem;
-}
-
-.projectButton:hover {
-    .projectButtonLogo {
-        fill: $background-color;
-    }
-}
-
-.projectButtonLogo {
-    transition: 0.5s fill ease-in-out;
-    height: 50%;
-    width: 50%;
-    fill: white;
-}
-
 .projectName {
     width: 100%;
     text-align: center;
@@ -102,12 +79,6 @@
 
     .projectButtons {
         margin: 1rem 0;
-    }
-
-    .projectButton {
-        height: 3rem;
-        width: 3rem;
-        border-radius: 1rem;
     }
 
     .projectDetails {
