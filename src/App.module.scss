@@ -149,7 +149,6 @@ body {
 
 @mixin divider($color: $background-color) {
   border-right: 4px solid $color;
-  margin: 0 2rem;
   height: 100%;
 
   @media (max-width: $lg) {

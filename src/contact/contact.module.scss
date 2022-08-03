@@ -1,32 +1,189 @@
 @import "../App.module.scss";
 
-.contactContainer {
-    @include sectionContainer;
-    background-color: $accent-color;
+.contactContainerMain {
+  @include sectionContainer;
+  background-color: $accent-color;
+  font-family: $bodyFont;
 }
 
 .contactDivider {
-    @include divider;
+  @include divider;
 }
 
-.detailsContainer {
-    @include flexRow;
-    height: 75%;
-    width: 100%;
+.contactContainer {
+  @include flexRow;
+  height: 75%;
+  width: 100%;
 }
 
-.textAndSocials {
-    @include flexCol;
-    padding-right: 5%;
-    width: 50%;
+.contactSubsection {
+  @include flexCol;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2.5%;
+  width: 50%;
+}
+
+.contactForm {
+  @include flexCol;
+  align-items: center;
+  height: 100%;
+  width: 75%;
+}
+
+.contactLabel {
+  font-size: 1.5rem;
+  box-sizing: border-box;
+  padding: 0 1rem;
+  width: 100%;
+  color: white;
+}
+
+.callToAction {
+  font-size: 3rem;
+  margin-bottom: 3rem;
+  width: 100%;
+  color: white;
+  font-weight: bold;
 }
 
 .socials {
-    @include flexRow;
+  @include flexRow;
+  max-width: 50%;
+  min-width: 40%;
+  justify-content: space-around;
 }
 
-.contactFormContainer {
+.submitButton {
+  font-family: $futuraFont;
+  text-transform: uppercase;
+  color: white;
+  width: 25%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: linear-gradient(0deg, $background-color, $background-color)
+    no-repeat right bottom / 0;
+  transition: background-size 0.4s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.submitButton:where(:hover, :focus-visible) {
+  background-size: 100%;
+  background-position-x: left;
+}
+
+@keyframes submit {
+  from {
+    background-size: 100%;
+  }
+
+  to {
+    background-size: 0%;
+  }
+}
+
+.submitting {
+  animation-duration: 1s;
+  animation-name: submit;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+}
+
+// INPUT OUTLINE STYLES
+
+.inputContainer {
+  position: relative;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.oneLineInput {
+  height: 5rem;
+}
+
+.multiLineInput {
+  flex-grow: 3;
+}
+
+.contactInput {
+  height: 100%;
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 1rem;
+  padding: 1rem 1rem;
+  font-size: 1.5rem;
+  font-family: $bodyFont;
+  border: none;
+}
+
+.contactLabel {
+  position: absolute;
+  width: auto;
+  padding: 0 1rem;
+  font-size: 1.5rem;
+  color: white;
+  top: 0.5rem;
+  left: 0.25rem;
+  color: black;
+  cursor: text;
+
+  transition-property: top, left, font-size, background-color, border-radius,
+    color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in;
+}
+
+.inputContainer:hover > .contactInput {
+  outline: 3px solid $background-color;
+}
+
+.contactInput:focus {
+  outline: 5px solid $background-color !important;
+}
+
+.contactInput:focus ~ .contactLabel,
+.contactInput:not(:placeholder-shown).contactInput:not(:focus) ~ .contactLabel {
+  top: -0.8rem;
+  font-size: 1.25rem;
+  left: 1rem;
+  background-color: $background-color;
+  border-radius: 0.5rem;
+  color: white;
+}
+
+// RESPONSIVE MEDIA QUERIES
+
+@media (max-width: $lg) {
+  .contactContainer {
     @include flexCol;
-    padding-left: 5%;
-    width: 50%;
+    width: 90%;
+    height: 85%;
+  }
+
+  .contactSubsection {
+    width: 100%;
+    flex-grow: 1;
+  }
+
+  .callToAction {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .contactForm {
+    width: 90%;
+  }
+
+  .socials {
+    margin-bottom: 1rem;
+  }
 }
