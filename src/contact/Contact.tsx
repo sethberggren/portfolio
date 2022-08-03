@@ -3,8 +3,10 @@ import globalStyles from "../App.module.scss";
 import SectionHeading from "../SectionHeading";
 import { ReactComponent as GithubLogo } from "../icons/github.svg";
 import { ReactComponent as LinkedinLogo } from "../icons/linkedin.svg";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import ButtonLink from "../common/ButtonLink";
+import axios from "axios";
+import backendUrl from "../backendUrl";
 
 type ContactForm = {
   fullName: string;
@@ -51,6 +53,21 @@ export default function Contact() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  useEffect(() => {
+    const submitMessage = async () => {
+      try {
+        const response = await axios.post(backendUrl("contact"), contactForm);
+        setIsSubmitting(false);
+      } catch (error) {
+        setIsSubmitting(false);
+      }
+    };
+
+    if (isSubmitting) {
+      submitMessage();
+    }
+  }, [isSubmitting]);
+
   const handleContactForm = (
     key: keyof ContactForm,
     event:
@@ -67,11 +84,6 @@ export default function Contact() {
     e.preventDefault();
 
     setIsSubmitting(true);
-    console.log(contactForm);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      alert("done submitting");
-    }, 5000);
   };
 
   const renderedContactFormInputs = getContactFormFields(handleContactForm).map(
