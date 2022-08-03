@@ -2,16 +2,16 @@
 
 @mixin externalButtonLink($color: $accent-color) {
   @include center;
+  @include borderRadiusMd;
   cursor: pointer;
   height: 5rem;
   width: 5rem;
   background-color: $color;
-  border-radius: 1.5rem;
 
   @media (max-width: $lg) {
+    @include borderRadiusSm;
     height: 3rem;
     width: 3rem;
-    border-radius: 1rem;
   }
 
   svg {

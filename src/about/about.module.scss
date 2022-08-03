@@ -50,10 +50,10 @@
 }
 
 .aboutTechnologyLogoContainer {
+  @include borderRadiusMd;
   padding: 1rem 2rem;
   width: 75%;
   background-color: white;
-  border-radius: 3rem;
 }
 
 .technologyLogo {
