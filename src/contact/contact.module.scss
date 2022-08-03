@@ -1,16 +1,12 @@
 @import "../App.module.scss";
 
-.contactContainerMain {
-  @include sectionContainer;
-  background-color: $accent-color;
-  font-family: $bodyFont;
-}
-
 .contactDivider {
   @include divider;
 }
 
 .contactContainer {
+
+  font-family: $bodyFont;
   @include flexRow;
   height: 75%;
   width: 100%;

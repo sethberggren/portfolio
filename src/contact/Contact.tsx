@@ -1,12 +1,13 @@
 import styles from "./contact.module.scss";
 import globalStyles from "../App.module.scss";
-import SectionHeading from "../SectionHeading";
+import SectionHeading from "../common/SectionHeading";
 import { ReactComponent as GithubLogo } from "../icons/github.svg";
 import { ReactComponent as LinkedinLogo } from "../icons/linkedin.svg";
 import React, { FormEvent, useEffect, useState } from "react";
 import ButtonLink from "../common/ButtonLink";
 import axios from "axios";
 import backendUrl from "../backendUrl";
+import PortfolioSection from "../common/PortfolioSection";
 
 type ContactForm = {
   fullName: string;
@@ -96,9 +97,7 @@ export default function Contact() {
   );
 
   return (
-    <div className={styles.contactContainerMain}>
-      <SectionHeading title="Contact Me" />
-
+    <PortfolioSection sectionTitle="Contact Me" backgroundColor="accent">
       <div className={styles.contactContainer}>
         <div className={styles.contactSubsection}>
           <p className={styles.callToAction}>Want to get in touch with me?</p>
@@ -133,7 +132,7 @@ export default function Contact() {
           </form>
         </div>
       </div>
-    </div>
+    </PortfolioSection>
   );
 }
 

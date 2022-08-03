@@ -1,4 +1,4 @@
-import styles from "./App.module.scss";
+import styles from "./common.module.scss";
 
 type SectionHeadingProps = {
   title: string;

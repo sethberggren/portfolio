@@ -1,11 +1,5 @@
 @import "../App.module.scss";
 
-.projectsContainer {
-    @include sectionContainer;
-    background-color: $background-color;
-}
-
-
 .projectContainer {
     @include flexRow;
     @include borderRadiusMd;

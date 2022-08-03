@@ -2,11 +2,11 @@ import Carousel from "../carousel/Carousel";
 import CarouselArrows from "../carousel/CarouselArrows";
 import CarouselItem from "../carousel/CarouselItem";
 import CarouselNavDots from "../carousel/CarouselNavDots";
-import SectionHeading from "../SectionHeading";
 import styles from "./projects.module.scss";
 import { ReactComponent as ExternalLinkLogo } from "../icons/externalLink.svg";
 import { ReactComponent as GithubLogo } from "../icons/github.svg";
 import ButtonLink from "../common/ButtonLink";
+import PortfolioSection from "../common/PortfolioSection";
 
 const gradezprDescription = (
   <p>
@@ -52,12 +52,11 @@ export default function Projects() {
   )) as JSX.Element[];
 
   return (
-    <div className={styles.projectsContainer}>
-      <SectionHeading title="My Projects" />
+    <PortfolioSection sectionTitle="My Projects" backgroundColor="primary">
       <Carousel displaySize={{ height: "80%", width: "90%" }}>
         {renderedProjects}
       </Carousel>
-    </div>
+    </PortfolioSection>
   );
 }
 
