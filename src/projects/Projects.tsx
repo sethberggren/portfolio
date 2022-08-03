@@ -89,7 +89,7 @@ function Project(props: ProjectProps) {
       <div className={styles.projectDivider}></div>
 
       <div className={styles.projectDetails}>
-        <p className={styles.projectDescription}>{description}</p>
+        <div className={styles.projectDescription}>{description}</div>
       </div>
     </div>
   );
