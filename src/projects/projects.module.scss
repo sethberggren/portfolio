@@ -7,7 +7,7 @@
     color: $accent-color;
     justify-content: space-evenly;
     align-items: center;
-    height: 80%;
+    height: 90%;
     width: 100%;
     overflow: hidden;
     background-color: white;
@@ -23,12 +23,13 @@
     @include flexRow;
     margin-top: 2rem;
     justify-content: space-around;
-    min-width: 50%;
-    max-width: 75%;
+    min-width: 75%;
+    max-width: 90%;
 }
 
 .projectName {
     width: 100%;
+    word-wrap: break-word;
     text-align: center;
     font-size: 3rem;
 }
@@ -36,12 +37,16 @@
 .projectNameAndButtons {
     @include flexCol;
     box-sizing: border-box;
+    justify-content: center;
+    height: 100%;
     padding: 0 2rem;
     align-items: center;
     width: 50%;
 }
 
 .projectDetails {
+    @include flexCol;
+    justify-content: safe center;
     box-sizing: border-box;
     padding: 0 2rem;
     overflow: scroll;
@@ -51,10 +56,10 @@
 
 .projectDescription {
     @include flexCol;
-    white-space: normal;
     justify-content: safe center;
-    width: 100%;
+    white-space: normal;
     height: 100%;
+    width: 100%;
     line-height: 150%;
     font-size: 1.25rem;
 }
@@ -73,20 +78,24 @@
     }
 
     .projectNameAndButtons {
+        height: auto;
         padding: 0;
         width: 100%;
     }
 
     .projectButtons {
-        margin: 1rem 0;
+        margin: 1.5rem 0;
     }
 
     .projectDetails {
+        display: block;
+        height: auto;
         padding: 0;
         width: 85%;
     }
 
     .projectDescription {
+        display: block;
         line-height: 125%;
         font-size: 2.5vh;
     }

@@ -1,7 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-} from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import appRoutes from "../routes";
 import { FullPageContent } from "./FullPageContent";
 import {
@@ -13,8 +10,6 @@ import { FullPageNavDots } from "./FullPageNavDots";
 import styles from "./fullPageScroll.module.scss";
 import { FullPageNavBar } from "./FullPageNavBar";
 import { StateManagementProvider } from "../state/stateManagment";
-
-
 
 type FullPageScrollProps = {
   children: React.ReactNode | React.ReactNode[];
@@ -59,17 +54,15 @@ const childComponentSetup = (children: React.ReactNode) => {
 };
 
 export default function FullPageScroll(props: FullPageScrollProps) {
-  const {children, customScrollTiming} = props;
+  const { children, customScrollTiming } = props;
 
   return (
     <StateManagementProvider providerProps={providerProps}>
       <FullPageContainer customScrollTiming={customScrollTiming}>
         {children}
       </FullPageContainer>
-
     </StateManagementProvider>
-  )
-
+  );
 }
 
 function FullPageContainer(props: FullPageScrollProps) {
@@ -85,6 +78,8 @@ function FullPageContainer(props: FullPageScrollProps) {
   } = useFullPageContext();
 
   const dispatch = useFullPageDispatch();
+
+  const fullPageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (customScrollTiming) {
@@ -202,7 +197,12 @@ function FullPageContainer(props: FullPageScrollProps) {
     <>
       {anchorTagsForIds}
 
-      <div className={styles.fullPageContainer} style={transition} id="main">
+      <div
+        className={styles.fullPageContainer}
+        style={transition}
+        id="main"
+        ref={fullPageRef}
+      >
         {children}
       </div>
     </>

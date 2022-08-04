@@ -11,14 +11,8 @@ import PortfolioSection from "../common/PortfolioSection";
 const gradezprDescription = (
   <p>
     Gradezpr is a tool I built to help simplify the grade import process for my
-    school's Learning Management System (LMS), PowerSchool. <br /> <br /> When I
-    gave assignments, many were 'auto-graded' assignments through Google Sheets.
-    However, students were required to manually enter their names into Google
-    Forms, sometimes resulting in a mismatch between what they wrote on Google
-    Forms and what was in the LMS. For example, in the LMS the student is named
-    Benjamin, but the student writes 'Ben' in on their Google Forms response.
-    <br /> <br />
-    Gradezpr was designed to rectify this issue by using the student's ID as a
+    school's Learning Management System (LMS), PowerSchool. <br></br> <br></br>
+    Gradezpr was designed to resolve the mismatch of a student's name on auto-graded assignments and in the gradebook by using the student's ID as a
     unique identifier for quicker LMS imports. <br></br> <br></br>It includes
     other features such as: curving student grades, summary statistics for an
     assignment, and importing grades into PowerSchool through a Chrome
@@ -37,7 +31,7 @@ const projects: ProjectProps[] = [
     githubLink: "https://www.github.com",
   },
   {
-    name: "iceberggren.com",
+    name: "Portfolio",
     description: iceberggrenDescription,
     projectLink: "https://www.iceberggren.com",
     githubLink: "https://www.github.com",
@@ -53,7 +47,7 @@ export default function Projects() {
 
   return (
     <PortfolioSection sectionTitle="My Projects" backgroundColor="primary">
-      <Carousel displaySize={{ height: "80%", width: "90%" }}>
+      <Carousel displaySize={{ height: "95%", width: "95%" }}>
         {renderedProjects}
       </Carousel>
     </PortfolioSection>

@@ -16,6 +16,7 @@
   @include flexCol;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
   padding: 0 2.5%;
   width: 50%;
 }
@@ -155,7 +156,7 @@
   }
 
   .contactForm {
-    width: 90%;
+    width: 100%;
   }
 
   .socials {
