@@ -1,12 +1,7 @@
-import {
-  WaveFunctionColors,
-  WaveFunctionPaths,
-  WaveFunctionValues,
-} from "@backend/trigWaves/trigWaveSvg";
-import { WaveFunctionValueResponse } from "@backend/trigWaves/wavesRoute";
 import { ObjectTyped } from "object-typed";
 import CoordinateRange from "./CoordinateRange";
 import { ReactComponent as Iceberg } from "./iceberg.svg";
+import { WaveFunctions, WaveFunctionValueResponse } from "./Waves";
 import styles from "./waves.module.scss";
 
 export type WaveSVGProps = {
@@ -15,6 +10,8 @@ export type WaveSVGProps = {
 };
 
 export const waveFunctionTypes = ["xs", "sin", "cos"] as const;
+type WaveFunctionColors = { [key in WaveFunctions]: string };
+type WaveFunctionValues = { [key in WaveFunctions]: number[] };
 
 const svgXPaddingPercentage = 0.5;
 

@@ -1,7 +1,0 @@
-{
-    "compilerOptions": {
-      "baseUrl": ".",
-      "paths": { "@backend/*": ["../portfolio-backend/src/*"] }
-    }
-  }
-  

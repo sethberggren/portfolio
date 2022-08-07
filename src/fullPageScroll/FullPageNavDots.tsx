@@ -1,4 +1,3 @@
-import { dispatch } from "@svgdotjs/svg.js";
 import { MouseEventHandler, useCallback, useState } from "react";
 import { useFullPageContext, useFullPageDispatch } from "./FullPageContext";
 import styles from "./fullPageScroll.module.scss";

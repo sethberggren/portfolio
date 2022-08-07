@@ -1,11 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./waves.module.scss";
-import { WaveFunctionValues } from "@backend/trigWaves/trigWaveSvg";
 import axios from "axios";
 import backendUrl from "../backendUrl";
-import { WaveFunctionValueResponse } from "@backend/trigWaves/wavesRoute";
 import WaveSvg from "./WaveSvg";
 import { useGlobalContext } from "../state/globalContext";
+
+export const waveFunctionTypes = ["xs", "sin", "cos"] as const;
+export type WaveFunctions = typeof waveFunctionTypes[number];
+type WaveFunctionValues = { [key in WaveFunctions]: number[] };
+
+export type SampleFunctionParams = {samples: number; xMin: number, xMax: number};
+
+export type WaveFunctionValueResponse = {
+  functionValues: WaveFunctionValues,
+  params: SampleFunctionParams
+}
 
 export function Waves() {
   const [waveValues, setWaveValues] = useState<WaveFunctionValueResponse>(

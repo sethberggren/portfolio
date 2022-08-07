@@ -21,3 +21,12 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# deploy
+Dockerfile
+.dockerignore
+default.conf
+portfolio-backend.tar.gz
+start.sh
+.env.dev
+deploy.js

@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.25",
+    "node-ssh": "^13.0.0",
     "sass": "^1.53.0"
   }
 }
