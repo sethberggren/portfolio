@@ -1,5 +1,5 @@
 export default function backendUrl(url: keyof typeof apiRoutes) {
-  return `http://localhost:8080${apiRoutes[url]}`;
+  return `https://api.iceberggren.com${apiRoutes[url]}`;
 }
 
 const apiRoutes = {

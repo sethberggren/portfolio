@@ -97,6 +97,7 @@ export function FullPageNavBar(props: FullPageNavBarProps) {
 
   const visibleDrawerStyles = {
     top: `0px`,
+    height: `100%`
   };
 
   return (

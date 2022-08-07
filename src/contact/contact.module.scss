@@ -118,11 +118,13 @@
 }
 
 .inputContainer:hover > .contactInput {
-  outline: 3px solid $background-color;
+  outline: none;
+  border: 3px solid $background-color;
 }
 
 .contactInput:focus {
-  outline: 5px solid $background-color !important;
+  outline: none;
+  border: 5px solid $background-color !important;
 }
 
 .contactInput:focus ~ .contactLabel,
