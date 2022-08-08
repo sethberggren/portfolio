@@ -37,7 +37,7 @@ export default function About() {
 
         <div className={styles.aboutDetails}>
           <p className={styles.aboutText}>
-            I love to learn by doing things.
+            My personal mantra:  Learn by doing things.
             <br></br> <br></br>I taught secondary math for 5 years in public
             schools before transitioning into full-stack web development. I'm
             all about leveraging technology to make the boring tasks a breeze.

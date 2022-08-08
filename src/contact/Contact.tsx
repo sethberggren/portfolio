@@ -8,6 +8,7 @@ import ButtonLink from "../common/ButtonLink";
 import axios from "axios";
 import backendUrl from "../backendUrl";
 import PortfolioSection from "../common/PortfolioSection";
+import Spinner from "../common/Spinner";
 
 type ContactForm = {
   fullName: string;
@@ -65,7 +66,7 @@ export default function Contact() {
     };
 
     if (isSubmitting) {
-      submitMessage();
+      window.setTimeout(() => submitMessage(), 5000);
     }
   }, [isSubmitting]);
 
@@ -121,14 +122,16 @@ export default function Contact() {
         <div className={styles.contactSubsection}>
           <form className={styles.contactForm} onSubmit={handleSubmit}>
             {renderedContactFormInputs}
-            <button
-              type="submit"
-              className={`${styles.submitButton} ${
-                isSubmitting ? styles.submitting : ""
-              }`}
-            >
-              Send
-            </button>
+
+            <div className={styles.submitButtonContainer}>
+              {!isSubmitting ? (
+                <button type="submit" className={styles.submitButton}>
+                  Send
+                </button>
+              ) : (
+                <Spinner />
+              )}
+            </div>
           </form>
         </div>
       </div>

@@ -21,7 +21,7 @@ type FullPageSharedState = {
 };
 
 const fullPageInitialState: FullPageSharedState = {
-  indexInView: null,
+  indexInView: 0,
   ids: [] as string[],
   numOfPanels: 0,
   hasNavBar: false,

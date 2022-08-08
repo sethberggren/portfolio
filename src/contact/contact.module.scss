@@ -53,6 +53,18 @@
 
 .submitButton {
   @include pillButton;
+  min-width: 50%;
+  max-width: 100%;
+  min-height: 33%;
+  max-height: 100%;
+}
+
+.submitButtonContainer {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 @keyframes submit {
@@ -65,13 +77,7 @@
   }
 }
 
-.submitting {
-  animation-duration: 1s;
-  animation-name: submit;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-  animation-direction: alternate;
-}
+
 
 // INPUT OUTLINE STYLES
 
@@ -86,7 +92,7 @@
 }
 
 .multiLineInput {
-  flex-grow: 3;
+  flex-grow: 9;
 }
 
 .contactInput {

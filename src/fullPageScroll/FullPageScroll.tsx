@@ -206,6 +206,10 @@ function FullPageContainer(props: FullPageScrollProps) {
     window.onload = () => {
       const hash = window.location.hash.replace("#", "");
 
+      if (hash === "undefined" || hash === "") {
+        dispatch({type: "setIndexInView", payload: 0});
+      }
+
       dispatch({ type: "setIndexFromId", payload: hash });
     };
 
