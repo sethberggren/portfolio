@@ -97,7 +97,7 @@ export function FullPageNavBar(props: FullPageNavBarProps) {
 
   const visibleDrawerStyles = {
     top: `0px`,
-    height: `100%`
+    height: `${viewport.height}px`,
   };
 
   return (
@@ -134,12 +134,26 @@ export type FullPageNavButtonProps = {
 export function FullPageNavButton(props: FullPageNavButtonProps) {
   const { children, linkingId, className, ...rest } = props;
 
+  const { isMobile, sectionThresholds } = useFullPageContext();
+
   const dispatch = useFullPageDispatch();
 
-  const clickHandler = useCallback(() => {
-    dispatch({ type: "setDrawerIsOpen", payload: false });
-    dispatch({ type: "setIndexFromId", payload: linkingId });
-  }, [dispatch]);
+  const clickHandler: React.MouseEventHandler<HTMLAnchorElement> = useCallback(
+    (event) => {
+      event.preventDefault();
+      dispatch({ type: "setDrawerIsOpen", payload: false });
+      dispatch({ type: "setIndexFromId", payload: linkingId });
+
+      if (isMobile) {
+        window.scrollTo({
+          top: sectionThresholds[linkingId].min,
+          left: 0,
+          behavior: "smooth",
+        });
+      }
+    },
+    [dispatch, isMobile, sectionThresholds]
+  );
 
   return (
     <a

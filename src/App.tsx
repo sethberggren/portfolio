@@ -57,10 +57,8 @@ function App() {
   ];
 
   const dispatchWindowChange = () => {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    console.log("resize from app.tsx payload event listnerr...");
+    const width = document.documentElement.clientWidth;
+    const height = document.documentElement.clientHeight;
 
     dispatch({
       type: "setViewport",
@@ -105,7 +103,6 @@ function App() {
           {renderedHeaderButtons as any}
         </FullPageNavBar>
 
-        <FullPageNavDots location="right" />
         {renderedContent}
       </FullPageScroll>
     </>

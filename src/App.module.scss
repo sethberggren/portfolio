@@ -54,6 +54,12 @@ body {
   overflow: hidden;
 }
 
+@media (max-width: $lg) {
+  html, body {
+    overflow: visible;
+  }
+}
+
 // GLOBAL STYLES
 
 @mixin navDotsContainer(

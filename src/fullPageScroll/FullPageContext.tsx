@@ -16,6 +16,8 @@ type FullPageSharedState = {
   scrollTiming: number;
   canScroll: boolean;
   drawerIsOpen: boolean;
+  isMobile: boolean;
+  sectionThresholds: { [key: string]: { min: number; max: number } };
 };
 
 const fullPageInitialState: FullPageSharedState = {
@@ -30,6 +32,8 @@ const fullPageInitialState: FullPageSharedState = {
   scrollTiming: 500,
   canScroll: true,
   drawerIsOpen: false,
+  isMobile: false,
+  sectionThresholds: {},
 };
 
 type FullPageActions =
@@ -75,6 +79,10 @@ type FullPageActions =
   | { type: "setCanScroll"; payload: boolean }
   | {
       type: "setDrawerIsOpen";
+      payload: boolean;
+    }
+  | {
+      type: "setIsMobile";
       payload: boolean;
     };
 
@@ -150,7 +158,20 @@ const fullPageReducerFunctions: ReducerFunctions<
     state: FullPageSharedState,
     { payload }: { payload: { height: number; width: number } }
   ) => {
-    return { ...state, viewport: { ...payload } };
+    const newSectionDelineators = { ...state.sectionThresholds };
+
+    for (let i = 0; i < state.ids.length; i++) {
+      newSectionDelineators[state.ids[i]] = {
+        min: i * payload.height,
+        max: (i + 1) * payload.height - 1,
+      };
+    }
+
+    return {
+      ...state,
+      viewport: { ...payload },
+      sectionThresholds: newSectionDelineators,
+    };
   },
   setIndexInView: (
     state: FullPageSharedState,
@@ -202,6 +223,12 @@ const fullPageReducerFunctions: ReducerFunctions<
     { payload }: { payload: boolean }
   ) => {
     return { ...state, drawerIsOpen: payload };
+  },
+  setIsMobile: (
+    state: FullPageSharedState,
+    { payload }: { payload: boolean }
+  ) => {
+    return { ...state, isMobile: payload };
   },
 };
 
