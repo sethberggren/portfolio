@@ -25,7 +25,7 @@ type ContactFormChangeHandler = (
 
 function getContactFormFields(
   handleChange: ContactFormChangeHandler
-): ContactFormFieldProps[] {
+): Omit<ContactFormFieldProps, "value">[] {
   return [
     {
       fieldId: "fullName",
@@ -46,29 +46,39 @@ function getContactFormFields(
   ];
 }
 
+const blankContactForm = {
+  fullName: "",
+  email: "",
+  message: "",
+};
 export default function Contact() {
-  const [contactForm, setContactForm] = useState({
-    fullName: "",
-    email: "",
-    message: "",
-  });
+  const [contactForm, setContactForm] = useState(blankContactForm);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    "in progress" | "loading" | "sent"
+  >("in progress");
 
   useEffect(() => {
     const submitMessage = async () => {
       try {
         const response = await axios.post(backendUrl("contact"), contactForm);
-        setIsSubmitting(false);
+
+        setSubmitStatus("sent");
+        setContactForm(blankContactForm);
+
+        window.setTimeout(() => setSubmitStatus("in progress"), 10000);
       } catch (error) {
-        setIsSubmitting(false);
+        setSubmitStatus("sent");
+        setContactForm(blankContactForm);
+
+        window.setTimeout(() => setSubmitStatus("in progress"), 10000);
       }
     };
 
-    if (isSubmitting) {
-      window.setTimeout(() => submitMessage(), 5000);
+    if (submitStatus === "loading") {
+      submitMessage();
     }
-  }, [isSubmitting]);
+  }, [submitStatus]);
 
   const handleContactForm = (
     key: keyof ContactForm,
@@ -85,13 +95,14 @@ export default function Contact() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setIsSubmitting(true);
+    setSubmitStatus("loading");
   };
 
   const renderedContactFormInputs = getContactFormFields(handleContactForm).map(
     (contactFormField) => (
       <ContactFormField
         {...contactFormField}
+        value={contactForm[contactFormField.fieldId]}
         key={`contact-form-${contactFormField.fieldId}`}
       />
     )
@@ -124,9 +135,9 @@ export default function Contact() {
             {renderedContactFormInputs}
 
             <div className={styles.submitButtonContainer}>
-              {!isSubmitting ? (
+              {!(submitStatus === "loading") ? (
                 <button type="submit" className={styles.submitButton}>
-                  Send
+                  {submitStatus === "in progress" ? "Send" : "Received!"}
                 </button>
               ) : (
                 <Spinner />
@@ -142,6 +153,7 @@ export default function Contact() {
 type ContactFormFieldProps = {
   fieldId: keyof ContactForm;
   label: string;
+  value: string;
   handleChange: (
     key: keyof ContactForm,
     event:
@@ -152,7 +164,7 @@ type ContactFormFieldProps = {
 };
 
 function ContactFormField(props: ContactFormFieldProps) {
-  const { fieldId, label, handleChange, textArea } = props;
+  const { fieldId, label, handleChange, textArea, value } = props;
 
   if (textArea) {
     return (
@@ -161,6 +173,7 @@ function ContactFormField(props: ContactFormFieldProps) {
           className={styles.contactInput}
           id={fieldId}
           placeholder=" "
+          value={value}
           onChange={(e) => handleChange(fieldId, e)}
         ></textarea>
         <label className={styles.contactLabel} htmlFor={fieldId}>
@@ -176,6 +189,7 @@ function ContactFormField(props: ContactFormFieldProps) {
           id={fieldId}
           type={fieldId !== "email" ? "text" : "email"}
           placeholder=" "
+          value={value}
           onChange={(e) => handleChange(fieldId, e)}
         ></input>
         <label className={styles.contactLabel} htmlFor={fieldId}>
