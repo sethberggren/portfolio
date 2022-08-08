@@ -106,40 +106,78 @@ function CarouselContainer(props: CarouselProps) {
     }
   };
 
+  const getCarouselItemDimensions = (
+    carouselContainer: { height: number; width: number },
+    navDotsContainer: HTMLDivElement
+  ) => {
+    const newArrowWidth = getArrowWidth();
+
+    const carouselNavDotsBottom = pixelStringToNumber(
+      getComputedStyle(navDotsContainer).bottom
+    );
+    const carouselNavDotsHeight =
+      pixelStringToNumber(getComputedStyle(navDotsContainer).height) === 0
+        ? 31
+        : pixelStringToNumber(getComputedStyle(navDotsContainer).height);
+
+    if (carouselContainer.width !== undefined) {
+      const carouselItemWidth = carouselContainer.width - 2 * newArrowWidth;
+      const carouselItemHeight =
+        carouselContainer.height -
+        2 * carouselNavDotsBottom -
+        carouselNavDotsHeight;
+
+      return { height: carouselItemHeight, width: carouselItemWidth };
+    } else {
+      throw new Error("Carousel container does not exist.");
+    }
+  };
+
   const handleResize = useCallback(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       const newArrowWidth = getArrowWidth();
 
-      const carouselContainerWidth = entries[0].contentRect.width;
+      const carouselContainer = {
+        width: entries[0].contentRect.width,
+        height: entries[0].contentRect.height,
+      };
 
-      const carouselContainerHeight = entries[0].contentRect.height;
-
-      const carouselNavDotsBottom = pixelStringToNumber(
-        getComputedStyle(navDotsRef.current as HTMLDivElement).bottom
+      const carouselItemDimensions = getCarouselItemDimensions(
+        carouselContainer,
+        navDotsRef.current as HTMLDivElement
       );
-      const carouselNavDotsHeight = pixelStringToNumber(
-        getComputedStyle(navDotsRef.current as HTMLDivElement).height
-      );
 
-      if (carouselContainerWidth) {
-        const carouselItemWidth = carouselContainerWidth - 2 * newArrowWidth;
-        const carouselItemHeight =
-          carouselContainerHeight -
-          2 * carouselNavDotsBottom -
-          carouselNavDotsHeight;
-
-        dispatch({
-          type: "setCarouselItemDimensions",
-          payload: { height: carouselItemHeight, width: carouselItemWidth },
-        });
-        dispatch({ type: "setArrowWidth", payload: newArrowWidth });
-      }
+      dispatch({
+        type: "setCarouselItemDimensions",
+        payload: carouselItemDimensions,
+      });
+      dispatch({ type: "setArrowWidth", payload: newArrowWidth });
     });
 
     return resizeObserver;
-  }, [dispatch]);
+  }, [dispatch, getCarouselItemDimensions, getArrowWidth]);
 
   useEffect(() => {
+    const initialSizes = () => {
+      if (carouselContainerRef.current) {
+        const carouselContainer = {
+          height: carouselContainerRef.current.clientHeight,
+          width: carouselContainerRef.current.clientWidth,
+        };
+
+        dispatch({
+          type: "setCarouselItemDimensions",
+          payload: getCarouselItemDimensions(
+            carouselContainer,
+            navDotsRef.current as HTMLDivElement
+          ),
+        });
+
+        dispatch({ type: "setArrowWidth", payload: getArrowWidth() });
+      }
+    };
+
+    initialSizes();
     handleResize().observe(carouselContainerRef.current as HTMLDivElement);
 
     return () =>
