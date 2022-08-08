@@ -87,6 +87,7 @@ function CarouselContainer(props: CarouselProps) {
   }, [customScrollTiming, dispatch]);
 
   const getArrowWidth = () => {
+
     const minWidth = 24;
 
     const widthPercent = 0.05;
@@ -131,7 +132,7 @@ function CarouselContainer(props: CarouselProps) {
     } else {
       throw new Error("Carousel container does not exist.");
     }
-  };
+  }
 
   const handleResize = useCallback(() => {
     const resizeObserver = new ResizeObserver((entries) => {

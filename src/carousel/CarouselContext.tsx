@@ -10,7 +10,7 @@ type CarouselState = {
   hasNavDots: boolean;
   arrowWidth: number;
   displaySize: { width: number; height: number };
-  carouselItemDimensions: {width: number, height: number};
+  carouselItemDimensions: { width: number; height: number };
   viewportScrollAmount: number;
   scrollTiming: number;
 };
@@ -22,7 +22,7 @@ const carouselInitialState: CarouselState = {
   hasNavDots: false,
   arrowWidth: 0,
   displaySize: { width: 0, height: 0 },
-  carouselItemDimensions: {width: 0, height: 0},
+  carouselItemDimensions: { width: 0, height: 0 },
   viewportScrollAmount: 0,
   scrollTiming: 500,
 };
@@ -52,7 +52,10 @@ type CarouselActions =
       type: "setDisplaySize";
       payload: { width: number; height: number };
     }
-  | { type: "setCarouselItemDimensions"; payload: {width: number; height: number} }
+  | {
+      type: "setCarouselItemDimensions";
+      payload: { width: number; height: number };
+    }
   | {
       type: "setIndexInView";
       payload: number;
@@ -64,7 +67,7 @@ type CarouselActions =
   | {
       type: "addId";
       payload: { id: string; index: number };
-    };
+    }
 
 const carouselReducerFunctions: ReducerFunctions<
   CarouselState,
@@ -110,9 +113,9 @@ const carouselReducerFunctions: ReducerFunctions<
   },
   setCarouselItemDimensions: (
     state: CarouselState,
-    { payload }: { payload: {width: number, height: number}}
+    { payload }: { payload: { width: number; height: number } }
   ) => {
-    return { ...state, carouselItemDimensions: {...payload}};
+    return { ...state, carouselItemDimensions: { ...payload } };
   },
   setArrowWidth: (state: CarouselState, { payload }: { payload: number }) => {
     return { ...state, arrowWidth: payload };
@@ -138,7 +141,7 @@ const carouselReducerFunctions: ReducerFunctions<
     } else {
       return { ...state };
     }
-  },
+  }
 };
 
 const [returnCarouselContext, returnCarouselDispatch, providerProps] =

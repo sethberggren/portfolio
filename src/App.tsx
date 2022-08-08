@@ -85,7 +85,7 @@ function App() {
   });
 
   const renderedContent = fullPageElements.map((element, index) => (
-    <FullPageContent referenceId={element.id} index={index}>
+    <FullPageContent referenceId={element.id} index={index} key={element.id}>
       {element.jsx}
     </FullPageContent>
   )) as React.ReactElement<any>[];

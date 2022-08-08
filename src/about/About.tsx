@@ -58,7 +58,7 @@ export default function About() {
 
           <div id={styles.logos}>
             {techonlogyLogos.map((logo) => (
-              <TechnlogyIcon src={logo.src} displayName={logo.displayName} />
+              <TechnlogyIcon src={logo.src} displayName={logo.displayName} key={logo.displayName}/>
             ))}
           </div>
         </div>

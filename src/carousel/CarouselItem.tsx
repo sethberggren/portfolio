@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useCarouselContext, useCarouselDispatch } from "./CarouselContext";
 import styles from "./carousel.module.scss";
+import useSwipe from "./useSwipe";
 
 type CarouselItemProps = {
   index: number;
@@ -11,6 +12,8 @@ type CarouselItemProps = {
 export default function CarouselItem(props: CarouselItemProps) {
   const { children, index, referenceId } = props;
 
+  const ref = useRef<HTMLDivElement>(null);
+
   const dispatch = useCarouselDispatch();
 
   const { carouselItemDimensions, arrowWidth } = useCarouselContext();
@@ -18,6 +21,16 @@ export default function CarouselItem(props: CarouselItemProps) {
   useEffect(() => {
     dispatch({ type: "addId", payload: { id: referenceId, index: index } });
   }, [index, referenceId, dispatch]);
+
+  const swipeDirection = useSwipe(ref.current as HTMLDivElement);
+
+  useEffect(() => {
+    if (swipeDirection === "left") {
+      dispatch({ type: "shiftLeft", payload: null });
+    } else if (swipeDirection === "right") {
+      dispatch({ type: "shiftRight", payload: null });
+    }
+  }, [swipeDirection]);
 
   const carouselId = `carousel-${referenceId}`;
 
@@ -31,6 +44,7 @@ export default function CarouselItem(props: CarouselItemProps) {
         marginRight: `${arrowWidth}px`,
       }}
       className={styles.carouselItem}
+      ref={ref}
     >
       {children}
     </div>
