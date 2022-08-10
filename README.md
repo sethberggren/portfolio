@@ -1,46 +1,33 @@
-# Getting Started with Create React App
+# iceberggren.com (Seth Berggren's Portfolio Website)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## View the live website [here](https://www.iceberggren.com).  
 
-## Available Scripts
+<hr><hr/>
 
-In the project directory, you can run:
+This is the source code for my portfolio website!  
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Here, you can see how I built each aspect of my portfolio website.  I challenged myself to not use a UI framework (like Chakra UI) for this portfolio website, opting to style everything through basic HTML elements and SCSS modules.  This was my firts major project that used SCSS - I thought it was fantastic.  
 
-### `npm test`
+The live version of this project is hosted in a Docker container on a DigitalOcean Droplet.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<hr><hr/>
 
-### `npm run build`
+## Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+If you'd like to run a local version of this website to impersonate me, run the commands below.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+git clone https://github.com/sethberggren/portfolio.git 
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm install
+```
 
-### `npm run eject`
+```bash
+npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+There you have it!  Let the identity theft commence 🥳
