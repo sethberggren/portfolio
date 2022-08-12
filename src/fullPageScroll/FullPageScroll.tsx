@@ -151,23 +151,25 @@ function FullPageContainer(props: FullPageScrollProps) {
     return () => document.removeEventListener("wheel", handleWheel);
   }, [handleWheel]);
 
-  const handleResize = useCallback(() => {
-    dispatch({
-      type: "setViewport",
-      payload: {
-        width: document.documentElement.clientWidth,
-        height: document.documentElement.clientHeight,
-      },
-    });
-
-    if (window.innerWidth < mobileBreakpoint) {
-      dispatch({ type: "setIsMobile", payload: true });
-    } else {
-      dispatch({ type: "setIsMobile", payload: false });
-    }
-  }, [dispatch]);
-
   useEffect(() => {
+    const handleResize = () => {
+      const { clientWidth: width, clientHeight: height } =
+        document.documentElement;
+      dispatch({
+        type: "setViewport",
+        payload: {
+          width: width,
+          height: height,
+        },
+      });
+
+      if (width < mobileBreakpoint) {
+        dispatch({ type: "setIsMobile", payload: true });
+      } else {
+        dispatch({ type: "setIsMobile", payload: false });
+      }
+    };
+
     handleResize();
     window.addEventListener("resize", handleResize);
 
@@ -207,7 +209,7 @@ function FullPageContainer(props: FullPageScrollProps) {
       const hash = window.location.hash.replace("#", "");
 
       if (hash === "undefined" || hash === "") {
-        dispatch({type: "setIndexInView", payload: 0});
+        dispatch({ type: "setIndexInView", payload: 0 });
       }
 
       dispatch({ type: "setIndexFromId", payload: hash });

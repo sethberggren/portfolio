@@ -13,9 +13,11 @@
 .aboutProfilePicture {
   height: 85%;
   width: auto;
+  margin-left: 5%;
   box-sizing: border-box;
   margin-left: 5%;
   overflow: hidden;
+  display: flex;
 }
 
 .aboutProfilePicture img {
@@ -27,6 +29,7 @@
 
 .divider {
   @include divider($background-color);
+  margin: 0 2.5%;
 }
 
 .aboutDetails {
@@ -86,13 +89,10 @@
   }
   
   .aboutProfilePicture {
-    margin-left: 0;
-    display: flex;
-    // max-width: 40%;
-    // max-height: 50%;
-    height: 60%;
+    flex-grow: 1;
     align-items: center;
     justify-content: center;
+    margin-bottom: 10%;
   }
 
   .aboutDetails {

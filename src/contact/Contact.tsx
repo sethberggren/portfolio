@@ -116,12 +116,12 @@ export default function Contact() {
 
           <div className={styles.socials}>
             <ButtonLink
-              href="https://www.linkedin.com"
+              href="https://www.linkedin.com/in/sethberggren"
               icon={<LinkedinLogo />}
               color="primary"
             />
             <ButtonLink
-              href="https://www.github.com"
+              href="https://github.com/sethberggren"
               icon={<GithubLogo />}
               color="primary"
             />

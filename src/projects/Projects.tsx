@@ -52,13 +52,13 @@ const projects: ProjectProps[] = [
     name: "Gradezpr",
     description: gradezprDescription,
     projectLink: "https://gradezpr.iceberggren.com",
-    githubLink: "https://www.github.com",
+    githubLink: "https://github.com/sethberggren/gradezpr-client",
   },
   {
     name: "Portfolio",
     description: iceberggrenDescription,
     projectLink: "https://www.iceberggren.com",
-    githubLink: "https://www.github.com",
+    githubLink: "https://github.com/sethberggren/portfolio",
   },
   {
     name: "express-error-factory",
