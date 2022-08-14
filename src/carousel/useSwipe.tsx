@@ -8,6 +8,12 @@ export default function useSwipe(element: HTMLElement | null) {
     null
   );
 
+  const swipeTimeout = useRef<number>(500);
+
+  const setSwipeTimeout = () => {
+    setTimeout(() => setSwipeDirection(null), swipeTimeout.current);
+  }
+
   useEffect(() => {
     const handleTouchStart = (e: TouchEvent) => {
       xDown.current = e.touches[0].clientX;
@@ -26,10 +32,16 @@ export default function useSwipe(element: HTMLElement | null) {
       const yDiff = yDown.current - yUp;
 
       if (Math.abs(xDiff) > Math.abs(yDiff)) {
+        e.preventDefault();
         if (xDiff > 0) {
+          console.log("right swipe");
           setSwipeDirection("right");
+          setSwipeTimeout();
         } else {
+          console.log("left swipe");
           setSwipeDirection("left");
+          setTimeout(() => setSwipeDirection(null), swipeTimeout.current);
+          setSwipeTimeout();
         }
       }
     };
